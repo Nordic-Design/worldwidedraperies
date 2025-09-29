@@ -1,103 +1,170 @@
+"use client";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import PageContainer from "./components/PageContainer";
+import Section from "./components/Section";
+import HeroVideo from "./components/HeroVideo";
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <PageContainer>
+      <HeroVideo fallbackImage="https://images.unsplash.com/photo-1708640511131-9bd92f708d80?w=1600&auto=format&fit=crop&q=60" src="/hero.mp4">
+          <div>
+            <motion.h1
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="text-white text-5xl sm:text-6xl font-semibold tracking-tight max-w-3xl"
+            >
+              Timeless Drapery, Crafted for Hospitality
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15, duration: 0.6 }}
+              className="text-white/90 mt-4 max-w-2xl text-lg"
+            >
+              Bespoke drapery and bedding solutions trusted by the world’s finest hotels and cruise lines since 1968.
+            </motion.p>
+            <motion.a
+              href="/contact"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="inline-block mt-8 bg-[var(--brand-olive)] text-white px-6 py-3 rounded-full shadow-sm hover:bg-[#4e6032] transition-colors"
+            >
+              Get a consultation
+            </motion.a>
+          </div>
+      </HeroVideo>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <section className="px-6 sm:px-10 lg:px-14 py-14 grid lg:grid-cols-2 gap-10 items-center">
+        <div>
+          <h2 className="text-3xl font-semibold text-[var(--text-primary)]">Introduction</h2>
+          <p className="text-base text-[var(--text-muted)] mt-4 max-w-xl">
+            With decades of expertise, we blend sophistication with functionality. Every stitch reflects craftsmanship, durability, and understated luxury.
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <div className="relative h-[300px] rounded-lg overflow-hidden shadow-sm">
           <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+            src="https://images.unsplash.com/photo-1628428988931-14bc33099075?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8ZHJhcGVyaWVzfGVufDB8fDB8fHww"
+            alt="Hotel room with tailored curtains"
+            fill
+            className="object-cover"
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        </div>
+      </section>
+
+      <Section
+        title="Products & Services"
+        intro="Comprehensive soft-goods manufacturing for hospitality and cruise lines. Our team supports projects from quoting through installation."
+      >
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {[
+            { t: "Custom Draperies", d: "Pinch pleat, ripplefold, blackout, sheer, and more." },
+            { t: "Window Treatments", d: "Manual and motorized roller shades and Roman shades." },
+            { t: "Bedding", d: "Quilted and non‑quilted bedspreads, decorative accents." },
+            { t: "Cornices", d: "Upholstered and wood cornices custom‑made in house." },
+            { t: "Re‑Upholstery", d: "Refresh seating, headboards, and cushions." },
+            { t: "Drapery Installation", d: "Professional measurement and installation worldwide." },
+            { t: "Marine Specialists", d: "Experienced technicians for cruise ship projects." },
+            { t: "Roller Shades", d: "Sourcing and installing industry‑leading systems." },
+          ].map((item) => (
+            <div key={item.t} className="bg-[var(--card-bg)] rounded-lg p-5 border border-slate-200/60">
+              <div className="text-lg font-medium text-[var(--text-primary)]">{item.t}</div>
+              <p className="text-sm text-[var(--text-muted)] mt-2">{item.d}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      <Section
+        title="Industries"
+        intro="From luxury resorts to cruise fleets, we manufacture at scale while honoring bespoke design."
+        className="bg-[var(--brand-stone)] text-black"
+      >
+        <div className="grid md:grid-cols-3 gap-6 text-white">
+          {[
+            {
+              t: "Hotels & Resorts",
+              img: "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1976&auto=format&fit=crop",
+            },
+            {
+              t: "Cruise Ships",
+              img: "https://images.unsplash.com/photo-1688732324812-9c67f0a35b4b?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGRyYXBlcmllc3xlbnwwfHwwfHx8MA%3D%3D",
+            },
+            {
+              t: "Healthcare",
+              img: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=1976&auto=format&fit=crop",
+            },
+          ].map((c) => (
+            <div key={c.t} className="bg-[var(--card-bg)] rounded-lg overflow-hidden shadow-sm">
+              <div className="relative h-40">
+                <Image src={c.img} alt={c.t} fill className="object-cover" />
+              </div>
+              <div className="p-4">
+                <div className="text-lg font-medium">{c.t}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      <Section title="Our Process" intro="A reliable, end‑to‑end partnership that safeguards timelines and budgets.">
+        <ol className="grid md:grid-cols-4 gap-6 list-none">
+          {[
+            { n: "01", t: "Quote & Sampling", d: "We review specs, provide pricing, and develop samples." },
+            { n: "02", t: "Measure & Plan", d: "Site measurements and installation planning by professionals." },
+            { n: "03", t: "Manufacture", d: "State‑of‑the‑art workroom produces to spec and schedule." },
+            { n: "04", t: "Install & Support", d: "Coordinated delivery and installation with post‑project support." },
+          ].map((s) => (
+            <li key={s.n} className="bg-[var(--card-bg)] rounded-lg p-5 border border-slate-200/60">
+              <div className="text-sm text-[var(--text-muted)]">{s.n}</div>
+              <div className="text-lg font-medium text-[var(--text-primary)] mt-1">{s.t}</div>
+              <p className="text-sm text-[var(--text-muted)] mt-2">{s.d}</p>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      <Section title="" className="py-16">
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <h3 className="text-2xl font-semibold text-[var(--text-primary)]">Ready to collaborate?</h3>
+            <p className="text-[var(--text-muted)]">Share your project and we’ll prepare a tailored quote and sample plan.</p>
+          </div>
+          <a href="/contact" className="px-6 py-3 rounded-full bg-[var(--brand-olive)] text-white hover:bg-[#4e6032]">Start a conversation</a>
+        </div>
+      </Section>
+
+      <section className="px-6 sm:px-10 lg:px-14 py-16 bg-[var(--brand-stone)]">
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            {
+              t: "Hospitals",
+              img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1976&auto=format&fit=crop",
+            },
+            {
+              t: "Cruise Ships",
+              img: "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1976&auto=format&fit=crop",
+            },
+            {
+              t: "Custom Drapes",
+              img: "https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=1976&auto=format&fit=crop",
+            },
+          ].map((card) => (
+            <div key={card.t} className="bg-[var(--card-bg)] rounded-lg p-5 shadow-sm">
+              <div className="relative h-40 rounded-md overflow-hidden">
+                <Image src={card.img} alt={card.t} fill className="object-cover" />
+              </div>
+              <h3 className="mt-4 text-xl font-medium">{card.t}</h3>
+              <p className="text-[var(--text-muted)] mt-2 text-sm">
+                Elegantly engineered textiles for demanding environments.
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </PageContainer>
   );
 }
