@@ -78,7 +78,7 @@ export default function AboutPage() {
       <Section
         title="Worldwide Installation"
         intro="Our field team provides on‑site measurements and installs anywhere your project takes you—on land or at sea."
-        className="bg-[var(--brand-stone)] text-black"
+        className="bg-[var(--brand-stone)] text-black rounded-xl"
       >
         <div className="grid lg:grid-cols-2 gap-6 items-center">
           <div className="text-black">

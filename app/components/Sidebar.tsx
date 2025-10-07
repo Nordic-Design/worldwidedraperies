@@ -9,7 +9,7 @@ import { NAV_LINKS } from "../components/nav";
 export default function Sidebar() {
   const pathname = usePathname();
   return (
-    <aside className="sticky top-0 h-dvh w-[260px] bg-[var(--brand-olive)] text-white p-6 hidden md:flex flex-col justify-between">
+    <aside className="sticky top-0 h-dvh w-[260px] bg-[var(--brand-olive)] text-white p-6 hidden md:flex flex-col justify-between shadow-[4px_0_16px_rgba(0,0,0,0.06)]">
       <div>
         <Link href="/" className="block mb-8">
           <Image src="/wwd-logo.png" alt="Worldwide Draperies" width={160} height={36} loading="eager" className="h-9 w-auto" />

@@ -1,16 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f6f2; /* soft off-white */
-  --foreground: #1f2937; /* slate-800 */
-  --brand-olive: #596b3a; /* deep olive */
-  --brand-sage: #8fa27a; /* muted sage */
-  --brand-clay: #9a6b4f; /* warm clay */
-  --brand-stone: #e5e2db; /* light stone */
-  --brand-ink: #111827; /* near-black text */
-  --text-primary: #1f2937; /* readable on light */
-  --text-muted: #475569; /* slate-600 */
-  --card-bg: #ffffff;
+  /* Brand palette */
+  --background: #F9F9F6; /* Ivory White */
+  --foreground: #4A4A4A; /* Charcoal Gray */
+  --brand-olive: #4A4A4A; /* repurposed: sidebar/topbar Charcoal */
+  --brand-stone: #E7D9C4; /* Soft Linen Beige - section bg */
+  --brand-taupe: #C5B8A5; /* Warm Taupe */
+  --accent-gold: #D4AF37; /* Brushed Gold */
+  --brand-ink: #4A4A4A;
+
+  /* Text & surfaces */
+  --text-primary: #4A4A4A; /* readable on light */
+  --text-muted: #6B6B6B; /* subtle charcoal */
+  --card-bg: #ffffff; /* clean card surface */
 }
 
 @theme inline {
@@ -27,12 +30,12 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Bluish grey that harmonizes with olive sidebar */
-    --background: #0f172a; /* slate-900 */
-    --foreground: #e7e5e4;
-    --text-primary: #e7e5e4; /* light on dark */
-    --text-muted: #cbd5e1; /* slate-300 */
-    --card-bg: #182233; /* slightly lighter than body for contrast */
+    /* Match light palette: keep site on Ivory even in dark mode */
+    --background: #F9F9F6; /* Ivory White */
+    --foreground: #4A4A4A; /* Charcoal Gray */
+    --text-primary: #4A4A4A;
+    --text-muted: #6B6B6B;
+    --card-bg: #ffffff;
   }
 }
 
@@ -54,6 +57,6 @@ body {
 
 /* Subtle focus rings */
 :focus-visible {
-  outline: 2px solid var(--brand-sage);
+  outline: 2px solid var(--accent-gold);
   outline-offset: 2px;
 }

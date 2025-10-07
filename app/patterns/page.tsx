@@ -1,5 +1,7 @@
+import Link from "next/link";
 import PageContainer from "../components/PageContainer";
 import Section from "../components/Section";
+import { PATTERNS } from "./data";
 
 const swatches = [
   "https://images.unsplash.com/photo-1701964619775-b18422290cf9?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFicmljJTIwcGF0dGVybnN8ZW58MHx8MHx8fDA%3D",
@@ -28,24 +30,31 @@ export default function PatternsPage() {
     <PageContainer>
       <section className="px-6 sm:px-10 lg:px-14 py-12">
         <h1 className="text-4xl font-semibold text-[var(--text-primary)]">Patterns</h1>
-        <p className="mt-3 text-[var(--text-muted)] max-w-2xl">
-          Explore a curated selection of textures and colors. A full customization tool is coming soon.
-        </p>
+        <p className="mt-3 text-[var(--text-muted)] max-w-2xl">Choose a pattern to start customizing colors.</p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {swatches.map((src, idx) => (
-            <div key={idx} className="aspect-video rounded-md overflow-hidden bg-[var(--brand-stone)]" style={{backgroundImage: `url(${src})`, backgroundSize: 'cover', backgroundPosition: 'center'}} />
+          {PATTERNS.map((p) => (
+            <Link key={p.slug} href={`/patterns/${p.slug}`} className="block group rounded-xl overflow-hidden border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+              <div className="aspect-video">
+                <svg viewBox="0 0 400 240" className="w-full h-full">
+                  <rect x="0" y="0" width="400" height="240" fill="#E7D9C4" />
+                  {p.regions.slice(0,300).map((r, i) => (
+                    <path key={r.id}
+                      d={r.d}
+                      fill={i % 2 === 0 ? "#C5B8A5" : "#F9F9F6"}
+                      stroke="#4A4A4A"
+                      strokeOpacity=".25"
+                      strokeWidth="0.5"
+                    />
+                  ))}
+                </svg>
+              </div>
+              <div className="p-4 flex items-center justify-between">
+                <div className="font-medium text-[var(--text-primary)]">{p.name}</div>
+                <span className="text-xs px-2 py-1 rounded-full bg-[var(--accent-gold)] text-black">Customize</span>
+              </div>
+            </Link>
           ))}
-        </div>
-
-        <div className="mt-10 rounded-xl border border-slate-200 p-6 bg-[var(--card-bg)]">
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <div>
-              <h2 className="text-2xl font-semibold">Pattern Customization</h2>
-              <p className="text-[var(--text-muted)]">Personalize colors, textures, and trim. Launching soon.</p>
-            </div>
-            <button className="px-5 py-2 rounded-full border border-slate-300 text-white hover:bg-slate-50">Coming soon…</button>
-          </div>
         </div>
       </section>
 

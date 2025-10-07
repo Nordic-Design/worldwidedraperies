@@ -31,7 +31,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="inline-block mt-8 bg-[var(--brand-olive)] text-white px-6 py-3 rounded-full shadow-sm hover:bg-[#4e6032] transition-colors"
+              className="inline-block mt-8 bg-[var(--accent-gold)] text-black px-6 py-3 rounded-full shadow-sm hover:brightness-95 transition-colors"
             >
               Get a consultation
             </motion.a>
@@ -103,7 +103,7 @@ export default function Home() {
                 <Image src={c.img} alt={c.t} fill className="object-cover" />
               </div>
               <div className="p-4">
-                <div className="text-lg font-medium">{c.t}</div>
+                <div className="text-lg text-black font-medium">{c.t}</div>
               </div>
             </div>
           ))}

@@ -68,6 +68,13 @@ export default function ContactPage() {
         </div>
       </Section>
 
+      <Section title="Rep Territories" intro="Download and reference our representative territories map.">
+        <div className="rounded-lg border border-slate-200/60 bg-[var(--card-bg)] p-4">
+          {/* Replace the src below with your final map image once provided */}
+          <img src="/rep-map.png" alt="Rep territories" className="w-full rounded-md" />
+        </div>
+      </Section>
+
       <Section title="FAQs">
         <div className="space-y-4">
           {[

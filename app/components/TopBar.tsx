@@ -13,7 +13,7 @@ export default function TopBar() {
 
   return (
     <div className="md:hidden sticky top-0 z-50">
-      <div className="h-14 bg-[var(--brand-olive)] text-white flex items-center justify-between px-4">
+      <div className="h-14 bg-[var(--brand-olive)] text-white flex items-center justify-between px-4 shadow-md">
         <Link href="/" className="flex items-center gap-2">
           <Image src="/wwd-logo.png" alt="Worldwide Draperies" width={120} height={24} loading="eager" className="h-6 w-auto" />
         </Link>
