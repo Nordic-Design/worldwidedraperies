@@ -5,65 +5,101 @@ import Section from "../components/Section";
 export default function ProductsPage() {
   return (
     <PageContainer>
-      <Section title="Draperies" intro="Images of drapery styles (Pinch, Ripplefold, fullnesses) with descriptions and reference fullness sizes.">
-        <div className="grid lg:grid-cols-2 gap-10 items-start">
-          <div className="space-y-4">
-            {[
-              { t: "Pinch Pleat", d: "Classic tailored pleats offering structured elegance." },
-              { t: "Ripplefold", d: "Contemporary soft waves with consistent folds." },
-              { t: "Grommet / Inverted", d: "Modern headings for casual or refined looks." },
-            ].map((i) => (
-              <div key={i.t} className="bg-[var(--card-bg)] border border-[color:var(--brand-taupe)]/30 rounded-xl p-5 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-                <div className="font-medium text-[var(--text-primary)]">{i.t}</div>
-                <p className="text-sm text-[var(--text-muted)]">{i.d}</p>
-              </div>
-            ))}
-            <div className="rounded-xl border border-[color:var(--brand-taupe)]/30 p-5 bg-[var(--card-bg)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-              <div className="font-medium text-[var(--text-primary)]">Fullness Sizes (reference)</div>
-              <p className="text-sm text-[var(--text-muted)] mt-2">Standard options: 1.5x · 2x · 2.5x · 3x. Project‑specific recommendations available.</p>
+      <Section title="Draperies" intro="Core drapery headings and constructions. Click through our portfolio for real-world installs.">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[
+            { t: "Pinch Pleat" },
+            { t: "Ripplefold" },
+            { t: "Grommet / Inverted" },
+            { t: "Fullness Sizes (reference)" },
+          ].map((item, i) => (
+            <div key={i} className="rounded-xl border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+              <div className="p-4 font-medium text-[var(--text-primary)]">{item.t}</div>
+              {/* No image available yet for these headings */}
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            {["https://images.unsplash.com/photo-1628428988931-14bc33099075?w=800&auto=format&fit=crop&q=60","https://images.unsplash.com/photo-1628428988931-14bc33099075?w=800&auto=format&fit=crop&q=60","https://images.unsplash.com/photo-1628428988931-14bc33099075?w=800&auto=format&fit=crop&q=60","https://images.unsplash.com/photo-1628428988931-14bc33099075?w=800&auto=format&fit=crop&q=60"].map((src,i)=>(
-              <div key={i} className="relative aspect-[4/3] rounded-md overflow-hidden">
-                <Image src={src} alt="Drapery style" fill className="object-cover" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      <Section title="Roller Shades" intro="Images of inside & outside mount shades; types of cassettes, bottom rails, etc.">
-        <div className="grid lg:grid-cols-3 gap-4">
-          {["Inside Mount","Outside Mount","Dual Shades","Cassette Options","Bottom Rails","Side Channels"].map((t)=> (
-            <div key={t} className="rounded-xl border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] p-4 text-center text-[var(--text-primary)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">{t}</div>
-          ))}
-        </div>
-        <p className="text-[var(--text-muted)] mt-4">(Rob content from Bandalux) — we can integrate vendor assets and specs here.</p>
-      </Section>
-
-      <Section title="Roman Shades" intro="Images of different roman styles and construction options.">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {["Flat","Hobbled","Relaxed","Batten Front/Back"].map((t)=>(
-            <div key={t} className="rounded-xl border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] p-4 text-center text-[var(--text-primary)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">{t}</div>
           ))}
         </div>
       </Section>
 
-      <Section title="Valances" intro="Images of upholstered/wood styles and trim details.">
+      <Section title="Roller Shades" intro="Inside/Outside mounts, dual shades, blackout and more.">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[
+            { t: "Inside Mount", img: "/assets/Specialty Items/Roller Shades/Roller Shade .png" },
+            { t: "Outside Mount", img: "/assets/Specialty Items/Roller Shades/Healthcare Roller Shades.png" },
+            { t: "Dual Shades", img: "/assets/Specialty Items/Roller Shades/Dual Roller Shade.png" },
+            { t: "Blackout Shades", img: "/assets/Specialty Items/Roller Shades/Blackout Roller Shades.png" },
+            { t: "Cassette Options" },
+            { t: "Bottom Rails" },
+            { t: "Side Channels" },
+          ].map((item, i)=> (
+            <div key={i} className="rounded-xl overflow-hidden border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+              <div className="p-4 font-medium text-[var(--text-primary)]">{item.t}</div>
+              {item.img ? (
+                <div className="relative aspect-[4/3]">
+                  <Image src={item.img} alt={item.t} fill className="object-cover" />
+                </div>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      <Section title="Roman Shades" intro="Tailored styles and fabrications.">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {["Upholstered","Wood","Patterned","Banding/Trim"].map((t)=>(
-            <div key={t} className="rounded-xl border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] p-4 text-center text-[var(--text-primary)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">{t}</div>
+          {[
+            { t: "Flat", img: "/assets/Specialty Items/Roman Shades/Cabot Citrus Farms Resort FL - GR.png" },
+            { t: "Hobbled", img: "/assets/Specialty Items/Roman Shades/Hobbled Roman Shade.png" },
+            { t: "Relaxed", img: "/assets/Specialty Items/Roman Shades/Relaxed Style Roman Shade.png" },
+            { t: "Batten Front/Back" },
+          ].map((item, i)=> (
+            <div key={i} className="rounded-xl overflow-hidden border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+              <div className="p-4 font-medium text-[var(--text-primary)]">{item.t}</div>
+              {item.img ? (
+                <div className="relative aspect-[4/3]">
+                  <Image src={item.img} alt={item.t} fill className="object-cover" />
+                </div>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      <Section title="Valances" intro="Upholstered and wood options with tailored trims.">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { t: "Laminated Flat Wood Valance", img: "/assets/Specialty Items/Valance/Laminated Flat Wood Valance.png" },
+            { t: "Laminated Flat Wood Valance (Alt)", img: "/assets/Specialty Items/Valance/Laminated Flat Wood Valance 2.png" },
+          ].map((item, i)=>(
+            <div key={i} className="rounded-xl overflow-hidden border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+              <div className="p-2 font-medium text-[var(--text-primary)]">{item.t}</div>
+              {item.img ? (
+                <div className="relative aspect-[4/3]">
+                  <Image src={item.img} alt={item.t} fill className="object-cover" />
+                </div>
+              ) : null}
+            </div>
           ))}
         </div>
       </Section>
 
       <Section title="Upholstery" intro="Images of headboards, benches, cushions, and re‑upholstery." />
 
-      <Section title="Specialty Window Treatments" intro="Cards only: faux/wood blinds, louvers, vertical blinds.">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {["Faux/Wood Blinds","Louvers","Vertical Blinds"].map((t)=>(
-            <div key={t} className="rounded-xl border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] p-4 text-center text-[var(--text-primary)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">{t}</div>
+      <Section title="Specialty Window Treatments" intro="Additional offerings for specific applications.">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { t: "Faux / Wood Blinds", img: "/assets/Specialty Items/Faux Wood Blinds/Faux Wood Blinds.jpg" },
+            { t: "Aluminum Venetian Blinds", img: "/assets/Specialty Items/Aluminum Venetian Blinds.png" },
+            { t: "Vertical Blinds", img: "/assets/Specialty Items/Vertical Blinds/Vertical Blinds.jpg" },
+            { t: "Louvers (Plantation Shutters)", img: "/assets/Specialty Items/Louvers - Plantation Style Shutters/Louver Shutters.png" },
+          ].map((item, i)=>(
+            <div key={i} className="rounded-xl overflow-hidden border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+              <div className="p-4 font-medium text-[var(--text-primary)]">{item.t}</div>
+              {item.img ? (
+                <div className="relative aspect-[4/3]">
+                  <Image src={item.img} alt={item.t} fill className="object-cover" />
+                </div>
+              ) : null}
+            </div>
           ))}
         </div>
       </Section>

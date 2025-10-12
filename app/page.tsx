@@ -47,7 +47,7 @@ export default function Home() {
         </div>
         <div className="relative h-[300px] rounded-lg overflow-hidden shadow-sm">
           <Image
-            src="https://images.unsplash.com/photo-1628428988931-14bc33099075?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8ZHJhcGVyaWVzfGVufDB8fDB8fHww"
+            src="/assets/Project Portfolio/Perry Hotel Naples FL.png"
             alt="Hotel room with tailored curtains"
             fill
             className="object-cover"
@@ -85,18 +85,9 @@ export default function Home() {
       >
         <div className="grid md:grid-cols-3 gap-6 text-white">
           {[
-            {
-              t: "Hotels & Resorts",
-              img: "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1976&auto=format&fit=crop",
-            },
-            {
-              t: "Cruise Ships",
-              img: "https://images.unsplash.com/photo-1688732324812-9c67f0a35b4b?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGRyYXBlcmllc3xlbnwwfHwwfHx8MA%3D%3D",
-            },
-            {
-              t: "Healthcare",
-              img: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=1976&auto=format&fit=crop",
-            },
+            { t: "Hotels & Resorts", img: "/assets/Project Portfolio/The Bellevue Hotel Philadelphia PA - Public Area.png" },
+            { t: "Cruise Ships", img: "/assets/Project Portfolio/Carnival Cruise Lines Horizon - Suite.png" },
+            { t: "Healthcare", img: "/assets/Project Portfolio/JW Marriott New Orleans LA - Meeting Room.png" },
           ].map((c) => (
             <div key={c.t} className="bg-[var(--card-bg)] rounded-lg overflow-hidden shadow-sm">
               <div className="relative h-40">
@@ -140,18 +131,9 @@ export default function Home() {
       <section className="px-6 sm:px-10 lg:px-14 py-16 bg-[var(--brand-stone)]">
         <div className="grid md:grid-cols-3 gap-6">
           {[
-            {
-              t: "Hospitals",
-              img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1976&auto=format&fit=crop",
-            },
-            {
-              t: "Cruise Ships",
-              img: "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1976&auto=format&fit=crop",
-            },
-            {
-              t: "Custom Drapes",
-              img: "https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=1976&auto=format&fit=crop",
-            },
+            { t: "Hospitals", img: "/assets/Project Portfolio/JW Marriott New Orleans LA - Board Room.png" },
+            { t: "Cruise Ships", img: "/assets/Project Portfolio/Carnival Cruise Line Horizon - Interior Cabin.jpg" },
+            { t: "Custom Drapes", img: "/assets/Project Portfolio/Andaz Miami Beach FL - GR.png" },
           ].map((card) => (
             <div key={card.t} className="bg-[var(--card-bg)] rounded-lg p-5 shadow-sm">
               <div className="relative h-40 rounded-md overflow-hidden">
