@@ -1,57 +1,83 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import PageContainer from "../../components/PageContainer";
 import Section from "../../components/Section";
-import { PATTERNS } from "../data";
+import { V1_PATTERNS, RenderCustomSVG } from "../v1";
 
-export default function PatternEditor() {
+export default function PatternEditorV1() {
   const router = useRouter();
   const params = useParams() as { slug?: string };
-  const slug = params?.slug ?? PATTERNS[0].slug;
-  const pattern = useMemo(() => PATTERNS.find(p => p.slug === slug) ?? PATTERNS[0], [slug]);
-  const [colors, setColors] = useState<string[]>(["#D4AF37", "#C5B8A5", "#4A4A4A"]);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [fills, setFills] = useState<Record<string, string>>({});
+  const slug = params?.slug ?? V1_PATTERNS[0].slug;
+  const builtIn = useMemo(() => V1_PATTERNS.find(p => p.slug === slug) ?? null, [slug]);
+  const [cmsMarkup, setCmsMarkup] = useState<string>("");
+  const [title, setTitle] = useState<string>(builtIn?.name || "Pattern");
 
-  function onRegionClick(id: string) {
-    const chosen = colors[activeIndex];
-    setFills(prev => ({ ...prev, [id]: chosen }));
+  useEffect(() => {
+    if (builtIn) { setCmsMarkup(""); setTitle(builtIn.name); return; }
+    (async () => {
+      try {
+        const res = await fetch("/api/cms/patterns", { cache: "no-store" });
+        const data = await res.json();
+        const rec = (data?.patterns || []).find((p: any) => p.slug === slug);
+        if (rec) { setCmsMarkup(rec.svgMarkup || ""); setTitle(rec.name || "Pattern"); }
+      } catch {}
+    })();
+  }, [slug, builtIn]);
+
+  const [bg, setBg] = useState("#F9F9F6");
+  const [fg, setFg] = useState("#C5B8A5");
+  const [acc, setAcc] = useState("#D4AF37");
+  const [openPicker, setOpenPicker] = useState<null | "bg" | "fg" | "acc" >(null);
+
+  const swatches = ["#111111","#4A4A4A","#777777","#C5B8A5","#E7D9C4","#D4AF37","#8B5E3C","#9AA6A4","#F9F9F6","#ffffff"];
+
+  function selectColor(hex: string) {
+    if (openPicker === "bg") setBg(hex);
+    if (openPicker === "fg") setFg(hex);
+    if (openPicker === "acc") setAcc(hex);
+    setOpenPicker(null);
   }
 
   return (
     <PageContainer>
-      <Section title={pattern.name} intro="Pick up to 3 colors, then click on the pattern to apply them.">
+      <Section title={title} intro="Set background, foreground, and accent colors.">
         <div className="grid lg:grid-cols-[360px_1fr] gap-8 items-start">
           <div className="space-y-4">
             <button onClick={() => router.back()} className="text-sm underline">← Back</button>
-            <div>
-              <div className="text-sm text-[var(--text-muted)] mb-2">Your colors (max 3)</div>
-              <div className="flex items-center gap-3">
-                {colors.map((c, i) => (
-                  <button key={i} aria-label={`color ${i+1}`} onClick={() => setActiveIndex(i)} style={{ background: c }} className={`h-9 w-9 rounded-full ring-2 ${activeIndex===i?"ring-[var(--accent-gold)]":"ring-transparent"}`} />
-                ))}
-              </div>
-            </div>
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                "#111111","#4A4A4A","#777777","#C5B8A5","#E7D9C4","#D4AF37","#8B5E3C","#9AA6A4","#F9F9F6"
-              ].map(hex => (
-                <button key={hex} onClick={() => setColors(prev => prev.map((c, i)=> i===activeIndex? hex : c))} style={{ background: hex }} className="h-8 rounded-md border border-black/5" />
+            <div className="space-y-3">
+              {([
+                { key: "bg", label: "Background", value: bg },
+                { key: "fg", label: "Foreground", value: fg },
+                { key: "acc", label: "Accent", value: acc },
+              ] as const).map((c) => (
+                <div key={c.key} className="relative">
+                  <button onClick={() => setOpenPicker(openPicker===c.key?null:c.key)} className="w-full h-11 border rounded-md flex items-center justify-between px-3">
+                    <span>{c.label}</span>
+                    <span className="h-6 w-6 rounded-full border" style={{ background: c.value }} />
+                  </button>
+                  {openPicker === c.key ? (
+                    <div className="absolute z-10 mt-2 p-2 rounded-md border bg-white grid grid-cols-5 gap-2">
+                      {swatches.map(hex => (
+                        <button key={hex} onClick={() => selectColor(hex)} className="h-8 w-8 rounded" style={{ background: hex }} />
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
               ))}
             </div>
           </div>
 
           <div className="bg-[var(--card-bg)] rounded-xl border border-[color:var(--brand-taupe)]/30 p-4 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-            <svg viewBox="0 0 400 240" className="w-full h-[360px]">
-              {pattern.regions.map(r => (
-                <path key={r.id} d={r.d} fill={fills[r.id] ?? "#ffffff"} stroke="#e5e7eb" onClick={() => onRegionClick(r.id)} className="cursor-pointer" />
-              ))}
-            </svg>
-            <div className="mt-4 text-sm text-[var(--text-muted)]">Click a color, then click a region to apply. You can reapply any time.</div>
+            {builtIn ? (
+              <builtIn.Component bg={bg} fg={fg} acc={acc} />
+            ) : cmsMarkup ? (
+              <RenderCustomSVG markup={cmsMarkup} bg={bg} fg={fg} acc={acc} />
+            ) : null}
+            <div className="mt-4 text-sm text-[var(--text-muted)]">Pick a swatch for Background, Foreground, and Accent. The picker closes after selection.</div>
             <div className="mt-4">
-              <button onClick={() => router.push(`/patterns/${pattern.slug}/finalize?fills=${encodeURIComponent(JSON.stringify(fills))}&colors=${encodeURIComponent(JSON.stringify(colors))}`)} className="px-5 py-2 rounded-full bg-[var(--accent-gold)] text-black">Continue</button>
+              <button onClick={() => router.push(`/patterns/${slug}/finalize?colors=${encodeURIComponent(JSON.stringify([bg, fg, acc]))}`)} className="px-5 py-2 rounded-full bg-[var(--accent-gold)] text-black">Continue</button>
             </div>
           </div>
         </div>

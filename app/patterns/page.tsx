@@ -1,7 +1,10 @@
 import Link from "next/link";
 import PageContainer from "../components/PageContainer";
 import Section from "../components/Section";
-import { PATTERNS } from "./data";
+import { V1_PATTERNS, RenderCustomSVG } from "./v1";
+import { Suspense } from "react";
+import { promises as fs } from "fs";
+import path from "path";
 
 const swatches = [
   "https://images.unsplash.com/photo-1701964619775-b18422290cf9?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFicmljJTIwcGF0dGVybnN8ZW58MHx8MHx8fDA%3D",
@@ -33,22 +36,9 @@ export default function PatternsPage() {
         <p className="mt-3 text-[var(--text-muted)] max-w-2xl">Choose a pattern to start customizing colors.</p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {PATTERNS.map((p) => (
+          {V1_PATTERNS.map((p) => (
             <Link key={p.slug} href={`/patterns/${p.slug}`} className="block group rounded-xl overflow-hidden border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-              <div className="aspect-video">
-                <svg viewBox="0 0 400 240" className="w-full h-full">
-                  <rect x="0" y="0" width="400" height="240" fill="#E7D9C4" />
-                  {p.regions.slice(0,300).map((r, i) => (
-                    <path key={r.id}
-                      d={r.d}
-                      fill={i % 2 === 0 ? "#C5B8A5" : "#F9F9F6"}
-                      stroke="#4A4A4A"
-                      strokeOpacity=".25"
-                      strokeWidth="0.5"
-                    />
-                  ))}
-                </svg>
-              </div>
+              <div className="aspect-video">{<p.Component bg="#F9F9F6" fg="#C5B8A5" acc="#D4AF37" />}</div>
               <div className="p-4 flex items-center justify-between">
                 <div className="font-medium text-[var(--text-primary)]">{p.name}</div>
                 <span className="text-xs px-2 py-1 rounded-full bg-[var(--accent-gold)] text-black">Customize</span>
@@ -56,6 +46,10 @@ export default function PatternsPage() {
             </Link>
           ))}
         </div>
+
+        <Suspense>
+          <CmsPatterns />
+        </Suspense>
       </section>
 
       <Section title="Categories" intro="A versatile library of textures to suit hospitality and marine spaces.">
@@ -93,4 +87,39 @@ export default function PatternsPage() {
   );
 }
 
+
+async function fetchCms() {
+  // Read from the JSON store directly on the server to avoid absolute URL issues
+  try {
+    const p = path.join(process.cwd(), "public", "cms-patterns.json");
+    const raw = await fs.readFile(p, "utf8");
+    return JSON.parse(raw || "{\"patterns\":[]}");
+  } catch {
+    return { patterns: [] } as any;
+  }
+}
+
+async function CmsPatterns() {
+  const data = await fetchCms();
+  const list: { slug: string; name: string; svgMarkup: string }[] = data?.patterns || [];
+  if (!list.length) return null;
+  return (
+    <section className="mt-12">
+      <h2 className="text-2xl font-semibold text-[var(--text-primary)]">Community / CMS Patterns</h2>
+      <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {list.map((p) => (
+          <Link key={p.slug} href={`/patterns/${p.slug}`} className="block group rounded-xl overflow-hidden border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+            <div className="aspect-video">
+              <RenderCustomSVG markup={p.svgMarkup} bg="#F9F9F6" fg="#C5B8A5" acc="#D4AF37" />
+            </div>
+            <div className="p-4 flex items-center justify-between">
+              <div className="font-medium text-[var(--text-primary)]">{p.name}</div>
+              <span className="text-xs px-2 py-1 rounded-full bg-[var(--accent-gold)] text-black">Customize</span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
 

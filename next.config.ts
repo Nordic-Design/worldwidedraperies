@@ -15,6 +15,46 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "picsum.photos",
       },
+      {
+        protocol: "https",
+        hostname: "m.media-amazon.com",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.shopify.com",
+      },
+      {
+        protocol: "https",
+        hostname: "blindsdesigns.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.curtarra.com",
+      },
+      {
+        protocol: "https",
+        hostname: "waclighting.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.forestgroup.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.thespruce.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.theshadestore.com",
+      },
+      {
+        protocol: "https",
+        hostname: "shopdecorator.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.glamour-decorating.com",
+      },
     ],
   },
 };

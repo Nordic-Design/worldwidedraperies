@@ -1,0 +1,14 @@
+{
+  "patterns": [
+    {
+      "slug": "radiant-grid",
+      "name": "Radiant Grid",
+      "svgMarkup": "<svg viewBox=\"0 0 400 240\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect x=\"0\" y=\"0\" width=\"400\" height=\"240\" fill=\"{bg}\" />\n  <circle cx=\"200\" cy=\"120\" r=\"80\" fill=\"{fg}\" />\n  <rect x=\"0\" y=\"220\" width=\"400\" height=\"20\" fill=\"{acc}\" />\n<svg viewBox=\"0 0 400 240\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background -->\n  <rect x=\"0\" y=\"0\" width=\"400\" height=\"240\" fill=\"{bg}\" />\n  \n  <!-- Accent grid lines -->\n  <path d=\"M0 60h400M0 120h400M0 180h400M100 0v240M200 0v240M300 0v240\" stroke=\"{acc}\" stroke-width=\"2\" opacity=\"0.4\"/>\n\n  <!-- Foreground radiating circle -->\n  <circle cx=\"200\" cy=\"120\" r=\"60\" fill=\"{fg}\" opacity=\"0.9\"/>\n  <circle cx=\"200\" cy=\"120\" r=\"30\" fill=\"{acc}\" opacity=\"0.7\"/>\n</svg>\n"
+    },
+    {
+      "slug": "petal-bloom",
+      "name": "Petal Bloom",
+      "svgMarkup": "<svg viewBox=\"0 0 400 240\" xmlns=\"http://www.w3.org/2000/svg\">\n  <!-- Background -->\n  <rect x=\"0\" y=\"0\" width=\"400\" height=\"240\" fill=\"{bg}\" />\n\n  <!-- Reusable flower symbol -->\n  <defs>\n    <g id=\"flower\">\n      <!-- 8 petals -->\n      <ellipse cx=\"0\" cy=\"-26\" rx=\"10\" ry=\"26\" fill=\"{fg}\" />\n      <ellipse cx=\"0\" cy=\"-26\" rx=\"10\" ry=\"26\" fill=\"{fg}\" transform=\"rotate(45)\"/>\n      <ellipse cx=\"0\" cy=\"-26\" rx=\"10\" ry=\"26\" fill=\"{fg}\" transform=\"rotate(90)\"/>\n      <ellipse cx=\"0\" cy=\"-26\" rx=\"10\" ry=\"26\" fill=\"{fg}\" transform=\"rotate(135)\"/>\n      <ellipse cx=\"0\" cy=\"-26\" rx=\"10\" ry=\"26\" fill=\"{fg}\" transform=\"rotate(180)\"/>\n      <ellipse cx=\"0\" cy=\"-26\" rx=\"10\" ry=\"26\" fill=\"{fg}\" transform=\"rotate(225)\"/>\n      <ellipse cx=\"0\" cy=\"-26\" rx=\"10\" ry=\"26\" fill=\"{fg}\" transform=\"rotate(270)\"/>\n      <ellipse cx=\"0\" cy=\"-26\" rx=\"10\" ry=\"26\" fill=\"{fg}\" transform=\"rotate(315)\"/>\n      <!-- Center -->\n      <circle cx=\"0\" cy=\"0\" r=\"10\" fill=\"{acc}\" />\n    </g>\n  </defs>\n\n  <!-- Flower placements -->\n  <use href=\"#flower\" x=\"80\"  y=\"70\"  />\n  <use href=\"#flower\" x=\"200\" y=\"120\" />\n  <use href=\"#flower\" x=\"320\" y=\"70\"  />\n  <use href=\"#flower\" x=\"120\" y=\"180\" transform=\"scale(0.9)\"/>\n  <use href=\"#flower\" x=\"280\" y=\"180\" transform=\"scale(0.9)\"/>\n</svg>\n"
+    }
+  ]
+}

@@ -34,25 +34,20 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <Section
-        title="What We Do"
-        intro="From custom draperies to motorized shades and bedding, we build soft‑goods that meet the demands of hospitality and marine environments."
-      >
-        <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 text-[var(--text-primary)]">
-          {[
-            "Custom Draperies",
-            "Window Treatments (manual & motorized)",
-            "Bedding (quilted / non‑quilted)",
-            "Upholstered & Wood Cornices",
-            "Re‑Upholstery",
-            "Professional Installation",
-          ].map((i) => (
-            <li key={i} className="bg-[var(--card-bg)] border border-slate-200/60 rounded-md p-4">{i}</li>
-          ))}
-        </ul>
+      <Section title="Our Family" intro="A third‑generation workroom built on craft and service.">
+        <div className="grid md:grid-cols-2 gap-6 items-center">
+          <div className="relative h-[280px] rounded-lg overflow-hidden">
+            <Image src="/assets/Project Portfolio/The Bellevue Hotel Philadelphia PA - Public Area.png" alt="Team" fill className="object-cover" />
+          </div>
+          <div className="text-[var(--text-muted)]">
+            We’re family‑owned and operated, with a close‑knit team who take pride in the details that make hospitality spaces feel elevated and comfortable.
+          </div>
+        </div>
       </Section>
 
-      <Section title="Our Values" intro="Three generations strong: craftsmanship, reliability, and partnership.">
+      {/* Removed "What We Do" per notes */}
+
+      <Section title="Our Values" className="bg-[var(--brand-stone)] text-black rounded-xl" intro="Three generations strong: craftsmanship, reliability, and partnership.">
         <div className="grid md:grid-cols-3 gap-5">
           {[
             { t: "Craftsmanship", d: "Experienced seamstresses and technicians produce enduring results." },
@@ -64,34 +59,6 @@ export default function AboutPage() {
               <p className="text-sm text-[var(--text-muted)] mt-2">{v.d}</p>
             </div>
           ))}
-        </div>
-      </Section>
-
-      <Section title="Materials & Compliance" intro="Performance fabrics and constructions to meet hospitality specifications.">
-        <ul className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-[var(--text-primary)]">
-          {["Blackout & Dimout", "Sheers", "FR Rated", "IMO / Marine", "Antimicrobial", "Acoustic", "Sustainable", "Custom Prints"].map((t) => (
-            <li key={t} className="bg-[var(--card-bg)] border border-slate-200/60 rounded-md p-4">{t}</li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section
-        title="Worldwide Installation"
-        intro="Our field team provides on‑site measurements and installs anywhere your project takes you—on land or at sea."
-        className="bg-[var(--brand-stone)] text-black rounded-xl"
-      >
-        <div className="grid lg:grid-cols-2 gap-6 items-center">
-          <div className="text-black">
-            We coordinate schedules with property teams, adhere to security protocols, and deliver punch‑list support through project handoff.
-          </div>
-          <div className="relative h-[280px] rounded-lg overflow-hidden">
-            <Image
-              src="https://images.unsplash.com/photo-1712172424864-1778f0cd34e0?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8aW5zdGFsbGluZyUyMGN1cnRhaW5zfGVufDB8fDB8fHww"
-              alt="Technician installing curtains"
-              fill
-              className="object-cover"
-            />
-          </div>
         </div>
       </Section>
     </PageContainer>

@@ -55,18 +55,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <Section title="Showroom & Hours" intro="Visit or schedule an appointment for product demos and sampling.">
-        <div className="grid sm:grid-cols-2 gap-4">
-          <div className="rounded-md border border-slate-200/60 bg-[var(--card-bg)] p-4">
-            <div className="font-medium text-[var(--text-primary)]">Showroom</div>
-            <div className="text-[var(--text-muted)] mt-1">705 West 20th Street, Hialeah, FL 33010</div>
-          </div>
-          <div className="rounded-md border border-slate-200/60 bg-[var(--card-bg)] p-4">
-            <div className="font-medium text-[var(--text-primary)]">Hours</div>
-            <div className="text-[var(--text-muted)] mt-1">Mon–Fri 8:00am–5:00pm ET</div>
-          </div>
-        </div>
-      </Section>
+      {/* Removed Showroom & Hours per notes */}
 
       <Section title="Rep Territories" intro="Download and reference our representative territories map.">
         <div className="rounded-lg border border-slate-200/60 bg-[var(--card-bg)] p-4">
@@ -75,20 +64,7 @@ export default function ContactPage() {
         </div>
       </Section>
 
-      <Section title="FAQs">
-        <div className="space-y-4">
-          {[
-            { q: "Do you work outside Florida?", a: "Yes. We manufacture in Florida and install worldwide, including cruise ships." },
-            { q: "Can you meet brand standards?", a: "We regularly build to hospitality and cruise line specifications and submit samples for approval." },
-            { q: "Lead times?", a: "Typical lead times are 4–8 weeks depending on scope and material availability." },
-          ].map((f) => (
-            <div key={f.q} className="bg-[var(--card-bg)] border border-slate-200/60 rounded-md p-4">
-              <div className="font-medium text-[var(--text-primary)]">{f.q}</div>
-              <div className="text-[var(--text-muted)] mt-1">{f.a}</div>
-            </div>
-          ))}
-        </div>
-      </Section>
+      {/* Removed FAQs per notes */}
     </PageContainer>
   );
 }
