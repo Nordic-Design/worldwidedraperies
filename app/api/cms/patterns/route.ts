@@ -2,33 +2,42 @@ import { NextRequest, NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 
-const DATA_PATH = path.join(process.cwd(), "public", "cms-patterns.json");
+const PUBLIC_PATH = path.join(process.cwd(), "public", "cms-patterns.json");
+const TMP_PATH = "/tmp/cms-patterns.json"; // writable on many serverless platforms
 
-async function ensureFile() {
-  try {
-    await fs.access(DATA_PATH);
-  } catch {
-    await fs.writeFile(DATA_PATH, JSON.stringify({ patterns: [] }, null, 2), "utf8");
+async function readFirstExisting(): Promise<{ patterns: any[] }> {
+  for (const p of [PUBLIC_PATH, TMP_PATH]) {
+    try {
+      const raw = await fs.readFile(p, "utf8");
+      return JSON.parse(raw || "{\"patterns\":[]}");
+    } catch {}
   }
+  return { patterns: [] };
+}
+
+async function writeBest(data: any) {
+  // Try public first (works locally), fall back to /tmp in read-only envs
+  try {
+    await fs.writeFile(PUBLIC_PATH, JSON.stringify(data, null, 2), "utf8");
+    return;
+  } catch {}
+  await fs.writeFile(TMP_PATH, JSON.stringify(data, null, 2), "utf8");
 }
 
 export async function GET() {
-  await ensureFile();
-  const raw = await fs.readFile(DATA_PATH, "utf8");
-  return NextResponse.json(JSON.parse(raw));
+  const json = await readFirstExisting();
+  return NextResponse.json(json);
 }
 
 export async function POST(req: NextRequest) {
-  await ensureFile();
   const body = await req.json();
   const { slug, name, svgMarkup } = body || {};
   if (!slug || !name || !svgMarkup) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
-  const raw = await fs.readFile(DATA_PATH, "utf8");
-  const data = JSON.parse(raw || "{}");
+  const data = await readFirstExisting();
   const list = (data.patterns || []) as any[];
   if (list.find((p) => p.slug === slug)) return NextResponse.json({ error: "Slug exists" }, { status: 409 });
   list.push({ slug, name, svgMarkup });
-  await fs.writeFile(DATA_PATH, JSON.stringify({ patterns: list }, null, 2), "utf8");
+  await writeBest({ patterns: list });
   return NextResponse.json({ ok: true });
 }
 

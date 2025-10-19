@@ -91,6 +91,12 @@ export default function PatternsPage() {
 async function fetchCms() {
   // Read from the JSON store directly on the server to avoid absolute URL issues
   try {
+    // Prefer /tmp if present (serverless write path), else public
+    const tmp = path.join("/tmp", "cms-patterns.json");
+    try {
+      const rawTmp = await fs.readFile(tmp, "utf8");
+      return JSON.parse(rawTmp || "{\"patterns\":[]}");
+    } catch {}
     const p = path.join(process.cwd(), "public", "cms-patterns.json");
     const raw = await fs.readFile(p, "utf8");
     return JSON.parse(raw || "{\"patterns\":[]}");
