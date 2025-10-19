@@ -6,7 +6,8 @@ const PUBLIC_PATH = path.join(process.cwd(), "public", "cms-patterns.json");
 const TMP_PATH = "/tmp/cms-patterns.json"; // writable on many serverless platforms
 
 async function readFirstExisting(): Promise<{ patterns: any[] }> {
-  for (const p of [PUBLIC_PATH, TMP_PATH]) {
+  // Prefer /tmp (serverless write location), then fall back to public
+  for (const p of [TMP_PATH, PUBLIC_PATH]) {
     try {
       const raw = await fs.readFile(p, "utf8");
       return JSON.parse(raw || "{\"patterns\":[]}");

@@ -18,9 +18,13 @@ export default function AdminPatternsPage() {
   const [previewColors] = useState({ bg: "#F9F9F6", fg: "#C5B8A5", acc: "#D4AF37" });
 
   async function load() {
-    const res = await fetch("/api/cms/patterns");
-    const data = await res.json();
-    setList(data.patterns || []);
+    try {
+      const res = await fetch("/api/cms/patterns", { cache: "no-store" });
+      const data = await res.json();
+      setList(data.patterns || []);
+    } catch {
+      setList([]);
+    }
   }
 
   useEffect(() => {
