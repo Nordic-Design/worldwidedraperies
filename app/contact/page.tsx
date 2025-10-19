@@ -45,7 +45,6 @@ export default function ContactPage() {
             <p>HIALEAH, FLORIDA 33010, US</p>
             <p>O: 305.887.9611 X 1204</p>
             <p>F: 305.883.1350</p>
-            <p>Toll-Free: 1.888.282.3188</p>
             <p>Email: info@wwdrape.com</p>
           </div>
           <div className="mt-6 text-sm text-black">
