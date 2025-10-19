@@ -90,7 +90,10 @@ export default function AdminPatternsPage() {
           <ul className="mt-3 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {list.map((p) => (
               <li key={p.slug} className="rounded-xl overflow-hidden border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)]">
-                <div className="p-3 font-medium">{p.name}</div>
+                <div className="p-3 font-medium flex items-center justify-between">
+                  <span>{p.name}</span>
+                  <button onClick={async()=>{ await fetch(`/api/cms/patterns?slug=${encodeURIComponent(p.slug)}`, { method: "DELETE" }); await load(); }} className="text-sm text-red-700 hover:underline">Delete</button>
+                </div>
                 <div className="aspect-video">
                   <RenderCustomSVG markup={p.svgMarkup} bg={previewColors.bg} fg={previewColors.fg} acc={previewColors.acc} />
                 </div>

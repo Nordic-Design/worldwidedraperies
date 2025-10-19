@@ -42,4 +42,21 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ ok: true });
 }
 
+export async function DELETE(req: NextRequest) {
+  const url = new URL(req.url);
+  let slug = url.searchParams.get("slug");
+  if (!slug) {
+    try {
+      const body = await req.json();
+      slug = body?.slug || slug;
+    } catch {}
+  }
+  if (!slug) return NextResponse.json({ error: "Missing slug" }, { status: 400 });
+  const data = await readFirstExisting();
+  const list = (data.patterns || []) as any[];
+  const next = list.filter((p) => p.slug !== slug);
+  await writeBest({ patterns: next });
+  return NextResponse.json({ ok: true });
+}
+
 
