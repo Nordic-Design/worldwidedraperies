@@ -3,8 +3,9 @@ import PageContainer from "../components/PageContainer";
 import Section from "../components/Section";
 import { V1_PATTERNS, RenderCustomSVG } from "./v1";
 import { Suspense } from "react";
-import { promises as fs } from "fs";
-import path from "path";
+import { headers } from "next/headers";
+
+export const dynamic = "force-dynamic";
 
 const swatches = [
   "https://images.unsplash.com/photo-1701964619775-b18422290cf9?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFicmljJTIwcGF0dGVybnN8ZW58MHx8MHx8fDA%3D",
@@ -89,17 +90,15 @@ export default function PatternsPage() {
 
 
 async function fetchCms() {
-  // Read from the JSON store directly on the server to avoid absolute URL issues
   try {
-    // Prefer /tmp if present (serverless write path), else public
-    const tmp = path.join("/tmp", "cms-patterns.json");
-    try {
-      const rawTmp = await fs.readFile(tmp, "utf8");
-      return JSON.parse(rawTmp || "{\"patterns\":[]}");
-    } catch {}
-    const p = path.join(process.cwd(), "public", "cms-patterns.json");
-    const raw = await fs.readFile(p, "utf8");
-    return JSON.parse(raw || "{\"patterns\":[]}");
+    const h = headers();
+    const hdrs = await h; // Next 15 headers() returns a Promise<ReadonlyHeaders>
+    const proto = hdrs.get("x-forwarded-proto") || "https";
+    const host = hdrs.get("host");
+    if (!host) return { patterns: [] } as any;
+    const base = `${proto}://${host}`;
+    const res = await fetch(`${base}/api/cms/patterns`, { cache: "no-store" });
+    return await res.json();
   } catch {
     return { patterns: [] } as any;
   }
