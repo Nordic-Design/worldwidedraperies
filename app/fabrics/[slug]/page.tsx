@@ -10,20 +10,40 @@ import { FABRICS } from "../data";
 
 export default function FabricDetail() {
   const params = useParams() as { slug?: string };
-  const [fabric, setFabric] = useState(FABRICS.find(f => f.slug === params?.slug) ?? FABRICS[0]);
+  const [fabric, setFabric] = useState<any | null>(null);
   useEffect(()=>{ (async () => {
     try {
       const res = await fetch(`/api/fabrics/import`, { cache: "no-store"});
       const j = await res.json();
       const r = (j.items || []).find((x: any)=> x.slug === params?.slug);
-      if (r) setFabric(r);
-    } catch {}
+      setFabric(r || FABRICS.find(f => f.slug === params?.slug) || null);
+    } catch {
+      setFabric(FABRICS.find(f => f.slug === params?.slug) || null);
+    }
   })(); }, [params?.slug]);
+  if (!fabric) {
+    return (
+      <PageContainer>
+        <section className="px-6 sm:px-10 lg:px-14 py-10 grid lg:grid-cols-[1.2fr_1fr] gap-10 items-start">
+          <div className="relative aspect-[4/3] rounded-md overflow-hidden bg-[var(--brand-stone)] animate-pulse" />
+          <div>
+            <div className="h-5 w-40 bg-[var(--brand-stone)] rounded animate-pulse" />
+            <div className="mt-3 h-8 w-64 bg-[var(--brand-stone)] rounded animate-pulse" />
+            <div className="mt-6 grid grid-cols-2 gap-6 text-sm">
+              <div className="h-4 w-32 bg-[var(--brand-stone)] rounded animate-pulse" />
+              <div className="h-4 w-24 bg-[var(--brand-stone)] rounded animate-pulse" />
+            </div>
+          </div>
+        </section>
+      </PageContainer>
+    );
+  }
+
   return (
     <PageContainer>
       <section className="px-6 sm:px-10 lg:px-14 py-10 grid lg:grid-cols-[1.2fr_1fr] gap-10 items-start">
         <div className="relative aspect-[4/3] rounded-md overflow-hidden">
-          <Image src={fabric.image} alt={fabric.name} fill className="object-cover" />
+          <Image key={fabric.image} src={fabric.image} alt={fabric.name} fill className="object-cover" />
         </div>
         <div>
           <div className="text-sm text-[var(--text-muted)] flex items-center gap-2">
@@ -63,7 +83,7 @@ export default function FabricDetail() {
             </div>
           </div>
 
-          <a href="/contact" className="mt-6 inline-flex items-center px-6 py-3 rounded-full bg-[var(--accent-gold)] text-black hover:brightness-95">Contact for quote</a>
+          <a href="/contact" className="mt-6 inline-flex items-center px-6 py-3 rounded-full bg-[var(--accent-gold)] text-white hover:brightness-95">Contact for quote</a>
         </div>
       </section>
 

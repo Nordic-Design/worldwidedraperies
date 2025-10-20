@@ -6,7 +6,7 @@ import PageContainer from "../components/PageContainer";
 import Section from "../components/Section";
 import { FABRICS } from "./data";
 
-const FILTERS = ["All", "Patterns", "Sheers", "Blackouts", "Dyed"] as const;
+const FILTERS = ["All", "Patterns", "Sheers", "Blackouts", "Dyed Blackouts", "Dyed"] as const;
 
 export default function FabricsPage() {
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>("All");
@@ -19,7 +19,8 @@ export default function FabricsPage() {
     } catch { setRemote([] as any); }
   })(); }, []);
 
-  const all = useMemo(()=>[...remote, ...FABRICS], [remote]);
+  // Prefer remote items when present to avoid static placeholders
+  const all = useMemo(()=> (remote && remote.length ? remote : FABRICS), [remote]);
   const filtered = useMemo(() => (
     filter === "All" ? all as any : all.filter(f => f.category === filter)
   ), [filter, all]);
@@ -29,7 +30,7 @@ export default function FabricsPage() {
       <Section title="Fabrics" intro="Our textiles, fabrics, and draperies showcase exquisite shades. Contact us for custom options based on our collection of patterns and base materials.">
         <div className="flex items-center gap-3 mb-6">
           <span className="text-sm text-[var(--text-muted)]">Filter By:</span>
-          {FILTERS.map(f => (
+          {Array.from(new Set(["All", ...all.map((x:any)=> x.category)])).map((f: any) => (
             <button key={f} onClick={() => setFilter(f)} className={`px-4 h-9 rounded-full border ${filter===f?"bg-[var(--brand-olive)] text-white border-transparent":"border-slate-300"}`}>{f}</button>
           ))}
         </div>
