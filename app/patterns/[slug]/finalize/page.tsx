@@ -65,7 +65,7 @@ export default function FinalizePattern() {
             <input required type="email" name="email" placeholder="Email" className="h-11 px-3 rounded-md border border-slate-300 bg-white text-black w-full" />
             <input name="organization" placeholder="Organization" className="h-11 px-3 rounded-md border border-slate-300 bg-white text-black w-full" />
             <textarea name="notes" placeholder="Notes" rows={5} className="px-3 py-2 rounded-md border border-slate-300 bg-white text-black w-full" />
-            <button className="mt-2 inline-flex justify-center items-center h-11 px-5 rounded-full bg-[var(--accent-gold)] text-black">Send request</button>
+            <button className="mt-2 inline-flex justify-center items-center h-11 px-5 rounded-full bg-[var(--accent-gold)] text-white">Send request</button>
           </form>
 
           <div className="bg-[var(--card-bg)] rounded-xl border border-[color:var(--brand-taupe)]/30 p-4 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">

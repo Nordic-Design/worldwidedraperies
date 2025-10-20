@@ -97,7 +97,7 @@ export default function PatternEditorV1() {
             ) : null}
             <div className="mt-4 text-sm text-[var(--text-muted)]">Pick a swatch for Background, Foreground, and Accent. The picker closes after selection.</div>
             <div className="mt-4">
-              <button onClick={() => router.push(`/patterns/${slug}/finalize?colors=${encodeURIComponent(JSON.stringify([bg, fg, acc]))}`)} className="px-5 py-2 rounded-full bg-[var(--accent-gold)] text-black">Continue</button>
+              <button onClick={() => router.push(`/patterns/${slug}/finalize?colors=${encodeURIComponent(JSON.stringify([bg, fg, acc]))}`)} className="px-5 py-2 rounded-full bg-[var(--accent-gold)] text-white">Continue</button>
             </div>
           </div>
         </div>
