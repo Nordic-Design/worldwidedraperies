@@ -3,6 +3,7 @@
 import PageContainer from "../components/PageContainer";
 import { useState } from "react";
 import Section from "../components/Section";
+import PdfAsImages from "../components/PdfAsImages";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -38,16 +39,16 @@ export default function ContactPage() {
           )}
         </div>
 
-        <div className="bg-[var(--brand-stone)] rounded-lg p-6">
-          <h2 className="text-2xl font-semibold text-black">Contact</h2>
-          <div className="mt-4 space-y-2 text-black">
-            <p>701 W 20TH ST</p>
+        <div className="text-white bg-[var(--brand-stone)] rounded-lg p-6">
+          <h2 className="text-2xl font-semibold text-white">Contact</h2>
+          <div className="mt-4 space-y-2 text-white">
+            <p>705 W 20TH ST</p>
             <p>HIALEAH, FLORIDA 33010, US</p>
-            <p>O: 305.887.9611 X 1204</p>
+            <p>O: 305.887.9611</p>
             <p>F: 305.883.1350</p>
             <p>Email: info@wwdrape.com</p>
           </div>
-          <div className="mt-6 text-sm text-black">
+          <div className="mt-6 text-sm text-white">
             Copyright 2025 Worldwide Draperies
           </div>
           <img src="https://images.unsplash.com/photo-1708640511131-9bd92f708d80?w=1600&auto=format&fit=crop&q=60" alt="Worldwide Draperies" className="mt-6" />
@@ -56,10 +57,13 @@ export default function ContactPage() {
 
       {/* Removed Showroom & Hours per notes */}
 
-      <Section title="Rep Territories" intro="Download and reference our representative territories map.">
+      <Section title="Rep Territories" intro="View or download our representative territories map.">
         <div className="rounded-lg border border-slate-200/60 bg-[var(--card-bg)] p-4">
-          {/* Replace the src below with your final map image once provided */}
-          <img src="/rep-map.png" alt="Rep territories" className="w-full rounded-md" />
+          <PdfAsImages src="/assets/Territory%20Map.pdf" />
+          <div className="mt-3 flex items-center gap-3">
+            <a href="/assets/Territory%20Map.pdf" target="_blank" rel="noopener" className="px-4 h-10 rounded-full bg-[var(--accent-gold)] text-white inline-flex items-center">Open PDF</a>
+            <a href="/assets/Territory%20Map.pdf" download className="px-4 h-10 rounded-full border border-slate-300 text-[var(--text-primary)] inline-flex items-center">Download</a>
+          </div>
         </div>
       </Section>
 

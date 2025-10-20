@@ -4,10 +4,13 @@
   /* Brand palette */
   --background: #F9F9F6; /* Ivory White */
   --foreground: #4A4A4A; /* Charcoal Gray */
-  --brand-olive: #4A4A4A; /* repurposed: sidebar/topbar Charcoal */
-  --brand-stone: #E7D9C4; /* Soft Linen Beige - section bg */
+  --brand-olive: #6f714e; /* Green */
+  --brand-green-2: #6f714e; /* Green 2 (accent) */
+  --brand-blue: #6f714e; /* Blue */
+  --brand-stone: #A7A889; /* Soft Linen Beige - section bg */
   --brand-taupe: #C5B8A5; /* Warm Taupe */
-  --accent-gold: #D4AF37; /* Brushed Gold */
+  /* Keep legacy var name but map to new accent for app-wide update */
+  --accent-gold: #6f714e; /* now uses Green 2 */
   --brand-ink: #4A4A4A;
 
   /* Text & surfaces */
@@ -22,8 +25,8 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-olive-600: var(--brand-olive);
-  --color-sage-400: var(--brand-sage);
-  --color-clay-500: var(--brand-clay);
+  --color-green-700: var(--brand-green-2);
+  --color-blue-800: var(--brand-blue);
   --color-stone-100: var(--brand-stone);
   --color-ink: var(--brand-ink);
 }

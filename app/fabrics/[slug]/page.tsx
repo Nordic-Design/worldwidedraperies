@@ -3,13 +3,22 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import PageContainer from "../../components/PageContainer";
 import Section from "../../components/Section";
 import { FABRICS } from "../data";
 
 export default function FabricDetail() {
   const params = useParams() as { slug?: string };
-  const fabric = FABRICS.find(f => f.slug === params?.slug) ?? FABRICS[0];
+  const [fabric, setFabric] = useState(FABRICS.find(f => f.slug === params?.slug) ?? FABRICS[0]);
+  useEffect(()=>{ (async () => {
+    try {
+      const res = await fetch(`/api/fabrics/import`, { cache: "no-store"});
+      const j = await res.json();
+      const r = (j.items || []).find((x: any)=> x.slug === params?.slug);
+      if (r) setFabric(r);
+    } catch {}
+  })(); }, [params?.slug]);
   return (
     <PageContainer>
       <section className="px-6 sm:px-10 lg:px-14 py-10 grid lg:grid-cols-[1.2fr_1fr] gap-10 items-start">
@@ -25,7 +34,7 @@ export default function FabricDetail() {
             <span>{fabric.name}</span>
           </div>
           <h1 className="mt-3 text-4xl font-semibold text-[var(--text-primary)]">{fabric.name}</h1>
-          <div className="mt-2 text-[var(--text-muted)]">Worldwide Draperies</div>
+          <div className="mt-2 text-[var(--text-muted)]">{fabric.manufacturer || "Worldwide Draperies"}</div>
 
           <div className="mt-6 grid grid-cols-2 gap-6 text-sm">
             <div>

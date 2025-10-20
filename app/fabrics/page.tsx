@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PageContainer from "../components/PageContainer";
 import Section from "../components/Section";
 import { FABRICS } from "./data";
@@ -11,9 +10,19 @@ const FILTERS = ["All", "Patterns", "Sheers", "Blackouts", "Dyed"] as const;
 
 export default function FabricsPage() {
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>("All");
+  const [remote, setRemote] = useState<typeof FABRICS>([] as any);
+  useEffect(() => { (async () => {
+    try {
+      const res = await fetch(`/api/fabrics/import`, { cache: "no-store"});
+      const j = await res.json();
+      setRemote(j.items || []);
+    } catch { setRemote([] as any); }
+  })(); }, []);
+
+  const all = useMemo(()=>[...remote, ...FABRICS], [remote]);
   const filtered = useMemo(() => (
-    filter === "All" ? FABRICS : FABRICS.filter(f => f.category === filter)
-  ), [filter]);
+    filter === "All" ? all as any : all.filter(f => f.category === filter)
+  ), [filter, all]);
 
   return (
     <PageContainer>
@@ -26,10 +35,10 @@ export default function FabricsPage() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map(f => (
+          {filtered.map((f: any) => (
             <Link key={f.slug} href={`/fabrics/${f.slug}`} className="block rounded-xl overflow-hidden border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-              <div className="relative aspect-[4/3]">
-                <Image src={f.image} alt={f.name} fill className="object-cover" />
+              <div className="aspect-[4/3]">
+                <img src={f.image} alt={f.name} className="w-full h-full object-cover" />
               </div>
               <div className="p-4">
                 <div className="font-medium text-[var(--text-primary)]">{f.name}</div>

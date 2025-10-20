@@ -1,6 +1,7 @@
 export type Fabric = {
   slug: string;
   name: string;
+  manufacturer?: string;
   category: "Blackouts" | "Sheers" | "Dyed" | "Patterns";
   image: string;
   specs: {

@@ -42,7 +42,7 @@ export default function PatternsPage() {
               <div className="aspect-video">{<p.Component bg="#F9F9F6" fg="#C5B8A5" acc="#D4AF37" />}</div>
               <div className="p-4 flex items-center justify-between">
                 <div className="font-medium text-[var(--text-primary)]">{p.name}</div>
-                <span className="text-xs px-2 py-1 rounded-full bg-[var(--accent-gold)] text-black">Customize</span>
+                <span className="text-xs px-2 py-1 rounded-full bg-[var(--accent-gold)] text-white">Customize</span>
               </div>
             </Link>
           ))}
@@ -53,7 +53,7 @@ export default function PatternsPage() {
         </Suspense>
       </section>
 
-      <Section title="Categories" intro="A versatile library of textures to suit hospitality and marine spaces.">
+      {/* <Section title="Categories" intro="A versatile library of textures to suit hospitality and marine spaces.">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {["Sheers", "Blackout", "Dimout", "Patterned", "Solid", "Texture", "Performance", "Eco"].map((c) => (
             <div key={c} className="rounded-md border border-slate-200/60 bg-[var(--card-bg)] p-4 text-center text-[var(--text-primary)]">{c}</div>
@@ -83,7 +83,7 @@ export default function PatternsPage() {
             <div key={t} className="rounded-md border border-slate-200/60 bg-[var(--card-bg)] p-4 text-center text-[var(--text-primary)]">{t}</div>
           ))}
         </div>
-      </Section>
+      </Section> */}
     </PageContainer>
   );
 }
@@ -109,8 +109,7 @@ async function CmsPatterns() {
   const list: { slug: string; name: string; svgMarkup: string }[] = data?.patterns || [];
   if (!list.length) return null;
   return (
-    <section className="mt-12">
-      <h2 className="text-2xl font-semibold text-[var(--text-primary)]">Community / CMS Patterns</h2>
+    <section className="mt-4">
       <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {list.map((p) => (
           <Link key={p.slug} href={`/patterns/${p.slug}`} className="block group rounded-xl overflow-hidden border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
@@ -119,7 +118,7 @@ async function CmsPatterns() {
             </div>
             <div className="p-4 flex items-center justify-between">
               <div className="font-medium text-[var(--text-primary)]">{p.name}</div>
-              <span className="text-xs px-2 py-1 rounded-full bg-[var(--accent-gold)] text-black">Customize</span>
+              <span className="text-xs px-2 py-1 rounded-full bg-[var(--accent-gold)] text-white">Customize</span>
             </div>
           </Link>
         ))}
