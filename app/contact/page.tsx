@@ -7,34 +7,78 @@ import PdfAsImages from "../components/PdfAsImages";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      firstName: formData.get("firstName") as string,
+      lastName: formData.get("lastName") as string,
+      email: formData.get("email") as string,
+      organization: formData.get("organization") as string,
+      phone: formData.get("phone") as string,
+      message: formData.get("message") as string,
+    };
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      setError("Failed to send message. Please try again or email us directly at info@wwdrape.com");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <PageContainer>
       <section className="px-6 sm:px-10 lg:px-14 py-12 grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-start">
         <div>
           <h1 className="text-4xl font-semibold text-[var(--text-primary)]">Contact Us</h1>
           <p className="mt-3 text-[var(--text-muted)] max-w-2xl">
-            Ready to see your design come to life? Share your details and we’ll guide you through receiving a personalized sample of your custom pattern.
+            Ready to see your design come to life? Share your details and we'll guide you through receiving a personalized sample of your custom pattern.
           </p>
 
           {!submitted ? (
             <form
               className="mt-8 grid grid-cols-1 gap-4 max-w-xl"
-              onSubmit={(e) => {
-                e.preventDefault();
-                setSubmitted(true);
-              }}
+              onSubmit={handleSubmit}
             >
-              <input required placeholder="First name" className="h-11 px-3 rounded-md border border-slate-300 bg-white text-black" />
-              <input required placeholder="Last name" className="h-11 px-3 rounded-md border border-slate-300 bg-white text-black" />
-              <input placeholder="Organization" className="h-11 px-3 rounded-md border border-slate-300 bg-white text-black" />
-              <input required type="email" placeholder="Email address" className="h-11 px-3 rounded-md border border-slate-300 bg-white text-black" />
-              <input placeholder="Phone number" className="h-11 px-3 rounded-md border border-slate-300 bg-white text-black" />
-              <textarea placeholder="Questions or Comments" rows={5} className="px-3 py-2 rounded-md border border-slate-300 bg-white text-black" />
-              <button className="mt-2 inline-flex justify-center items-center h-11 px-5 rounded-full bg-[var(--brand-olive)] text-white hover:bg-[#4e6032]">Submit</button>
+              <input required name="firstName" placeholder="First name" className="h-11 px-3 rounded-md border border-slate-300 bg-white text-black" />
+              <input required name="lastName" placeholder="Last name" className="h-11 px-3 rounded-md border border-slate-300 bg-white text-black" />
+              <input name="organization" placeholder="Organization" className="h-11 px-3 rounded-md border border-slate-300 bg-white text-black" />
+              <input required name="email" type="email" placeholder="Email address" className="h-11 px-3 rounded-md border border-slate-300 bg-white text-black" />
+              <input name="phone" placeholder="Phone number" className="h-11 px-3 rounded-md border border-slate-300 bg-white text-black" />
+              <textarea name="message" placeholder="Questions or Comments" rows={5} className="px-3 py-2 rounded-md border border-slate-300 bg-white text-black" />
+              {error && <div className="text-red-600 text-sm">{error}</div>}
+              <button 
+                type="submit"
+                disabled={loading}
+                className="mt-2 inline-flex justify-center items-center h-11 px-5 rounded-full bg-[var(--brand-olive)] text-white hover:bg-[#4e6032] disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? "Sending..." : "Submit"}
+              </button>
             </form>
           ) : (
-            <div className="mt-8 p-6 rounded-md bg-[var(--brand-stone)] max-w-xl">
-              Thank you! We’ll be in touch shortly.
+            <div className="mt-8 p-6 rounded-md bg-[var(--brand-stone)] max-w-xl text-white">
+              Thank you! We'll be in touch shortly.
             </div>
           )}
         </div>
