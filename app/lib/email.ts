@@ -94,6 +94,46 @@ export async function sendPatternRequestEmail(data: {
 }) {
   const transporter = createTransporter();
 
+  // Parse colors/fills
+  let parsedColors: string[] = [];
+  try { parsedColors = JSON.parse(data.colors || '[]'); } catch {}
+  const [backgroundColor, foregroundColor, accentColor] = [
+    parsedColors?.[0] || '#F9F9F6',
+    parsedColors?.[1] || '#C5B8A5',
+    parsedColors?.[2] || '#D4AF37',
+  ];
+
+  let parsedFills: Record<string, unknown> = {};
+  try { parsedFills = JSON.parse(data.fills || '{}'); } catch {}
+
+  // Build inline image attachment at fixed preview size via CID
+  let attachments: any[] = []; // eslint-disable-line @typescript-eslint/no-explicit-any
+  let inlinePreviewHtml = '';
+  if (data.imageDataUrl && data.imageDataUrl.startsWith('data:')) {
+    try {
+      const match = data.imageDataUrl.match(/^data:(.*?);base64,(.*)$/);
+      if (match) {
+        const contentType = match[1] || 'image/png';
+        const base64Data = match[2];
+        const contentBuffer = Buffer.from(base64Data, 'base64');
+        const contentId = 'pattern-preview@wwd';
+        attachments.push({
+          filename: `${data.patternName}-preview.png`,
+          content: contentBuffer,
+          contentType,
+          cid: contentId,
+        });
+        // Fixed size preview in email body
+        inlinePreviewHtml = `
+          <div style="margin-top:12px">
+            <div style="font:14px/1.4 -apple-system,Segoe UI,Arial,sans-serif;color:#444;margin-bottom:6px">Preview (400×240):</div>
+            <img src="cid:${contentId}" width="400" height="240" style="display:block;width:400px;height:240px;border:1px solid #eee;border-radius:6px" alt="Pattern preview" />
+          </div>
+        `;
+      }
+    } catch {}
+  }
+
   const mailOptions = {
     from: process.env.SMTP_FROM,
     to: process.env.SMTP_TO,
@@ -106,8 +146,11 @@ Email: ${data.email}
 ${data.organization ? `Organization: ${data.organization}` : ''}
 
 Pattern Name: ${data.patternName}
-Colors: ${data.colors}
-Fills: ${data.fills}
+Colors (by role):
+  - Background: ${backgroundColor}
+  - Foreground: ${foregroundColor}
+  - Accent: ${accentColor}
+Fills: ${JSON.stringify(parsedFills)}
 
 ${data.notes ? `Notes:\n${data.notes}` : 'No notes provided'}
     `.trim(),
@@ -119,20 +162,17 @@ ${data.notes ? `Notes:\n${data.notes}` : 'No notes provided'}
       
       <h3>Pattern Details</h3>
       <p><strong>Pattern Name:</strong> ${data.patternName}</p>
-      <p><strong>Colors:</strong> ${data.colors}</p>
-      <p><strong>Fills:</strong> ${data.fills}</p>
-      
+      <ul style="padding-left:16px;margin:8px 0">
+        <li><strong>Background:</strong> <span style="display:inline-block;width:10px;height:10px;border:1px solid #ccc;border-radius:2px;background:${backgroundColor};vertical-align:middle;margin-right:6px"></span>${backgroundColor}</li>
+        <li><strong>Foreground:</strong> <span style="display:inline-block;width:10px;height:10px;border:1px solid #ccc;border-radius:2px;background:${foregroundColor};vertical-align:middle;margin-right:6px"></span>${foregroundColor}</li>
+        <li><strong>Accent:</strong> <span style="display:inline-block;width:10px;height:10px;border:1px solid #ccc;border-radius:2px;background:${accentColor};vertical-align:middle;margin-right:6px"></span>${accentColor}</li>
+      </ul>
+      <p style="margin:8px 0"><strong>Fills:</strong> <code style="padding:2px 4px;border-radius:4px;background:#f6f6f6">${JSON.stringify(parsedFills)}</code></p>
       ${data.notes ? `<p><strong>Notes:</strong><br>${data.notes}</p>` : ''}
-      
-      ${data.imageDataUrl ? '<p><em>Pattern preview image attached</em></p>' : ''}
+      ${inlinePreviewHtml}
     `,
-    attachments: data.imageDataUrl ? [
-      {
-        filename: `${data.patternName}-preview.png`,
-        path: data.imageDataUrl,
-      }
-    ] : [],
-  };
+    attachments,
+  } as any;
 
   await transporter.sendMail(mailOptions);
 }
