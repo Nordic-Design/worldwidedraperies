@@ -15,21 +15,47 @@ export default function FinalizePattern() {
   const slug = params?.slug ?? V1_PATTERNS[0].slug;
   const pattern = useMemo(() => V1_PATTERNS.find(p=>p.slug===slug) ?? V1_PATTERNS[0], [slug]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const patternRef = useRef<HTMLDivElement>(null);
   const [cmsMarkup, setCmsMarkup] = useState<string>("");
   const [imageDataUrl, setImageDataUrl] = useState<string>("");
 
   useEffect(() => {
+    // Prefer capturing the actual SVG preview instead of drawing placeholders
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const container = patternRef.current;
+    if (!canvas || !container) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    canvas.width = 400; canvas.height = 240;
-    const [bg, fg, acc] = colors as string[];
-    ctx.fillStyle = bg || "#ffffff"; ctx.fillRect(0,0,400,240);
-    ctx.fillStyle = fg || "#cccccc"; ctx.fillRect(0,0,400,120);
-    ctx.fillStyle = acc || "#999999"; ctx.fillRect(0,200,400,40);
-    setImageDataUrl(canvas.toDataURL("image/png"));
-  }, [colors]);
+
+    const svgEl = container.querySelector("svg");
+    if (!svgEl) return; // nothing to capture yet
+
+    // Clone and size the SVG explicitly to 400x240 for consistent email preview
+    const cloned = svgEl.cloneNode(true) as SVGSVGElement;
+    cloned.setAttribute("width", "400");
+    cloned.setAttribute("height", "240");
+    cloned.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    const serializer = new XMLSerializer();
+    const svgMarkup = serializer.serializeToString(cloned);
+
+    const img = new Image();
+    img.onload = () => {
+      canvas.width = 400; canvas.height = 240;
+      ctx.clearRect(0, 0, 400, 240);
+      ctx.drawImage(img, 0, 0, 400, 240);
+      try { setImageDataUrl(canvas.toDataURL("image/png")); } catch {}
+    };
+    img.onerror = () => {
+      // Fallback to simple color bars if SVG fails to rasterize
+      canvas.width = 400; canvas.height = 240;
+      const [bg, fg, acc] = colors as string[];
+      ctx.fillStyle = bg || "#ffffff"; ctx.fillRect(0,0,400,240);
+      ctx.fillStyle = fg || "#cccccc"; ctx.fillRect(0,0,400,120);
+      ctx.fillStyle = acc || "#999999"; ctx.fillRect(0,200,400,40);
+      try { setImageDataUrl(canvas.toDataURL("image/png")); } catch {}
+    };
+    img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgMarkup);
+  }, [colors, cmsMarkup, slug]);
 
   // If this slug is a CMS pattern, fetch its markup so we can render the same design preview
   useEffect(() => {
@@ -70,7 +96,7 @@ export default function FinalizePattern() {
 
           <div className="bg-[var(--card-bg)] rounded-xl border border-[color:var(--brand-taupe)]/30 p-4 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <div className="text-sm text-[var(--text-muted)] mb-2">{pattern.name} · Colors: {colors.slice(0,3).join(", ")}</div>
-            <div className="w-full h-[620px] rounded overflow-hidden">
+            <div className="w-full h-[620px] rounded overflow-hidden" ref={patternRef}>
               {V1_PATTERNS.find(p => p.slug === slug) ? (
                 // Render built-in v1 pattern with selected colors
                 <pattern.Component bg={(colors[0] as string) || "#F9F9F6"} fg={(colors[1] as string) || "#C5B8A5"} acc={(colors[2] as string) || "#D4AF37"} />
