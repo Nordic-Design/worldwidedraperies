@@ -1,11 +1,23 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import PageContainer from "./components/PageContainer";
 import Section from "./components/Section";
+import Modal from "./components/Modal";
 import HeroVideo from "./components/HeroVideo";
 
 export default function Home() {
+  const [zoomOpen, setZoomOpen] = useState(false);
+  const [zoomImg, setZoomImg] = useState<string | null>(null);
+  const [zoomAlt, setZoomAlt] = useState<string>("");
+
+  function openZoom(src: string, alt: string) {
+    setZoomImg(src);
+    setZoomAlt(alt);
+    setZoomOpen(true);
+  }
+
   return (
     <PageContainer>
       <HeroVideo fallbackImage="https://images.unsplash.com/photo-1708640511131-9bd92f708d80?w=1600&auto=format&fit=crop&q=60" src="/hero.mp4">
@@ -74,9 +86,9 @@ export default function Home() {
             <div key={item.t} className="bg-[var(--card-bg)] rounded-lg p-5 border border-slate-200/60">
               <div className="text-lg font-medium text-[var(--text-primary)]">{item.t}</div>
               <p className="text-sm text-[var(--text-muted)] mt-2">{item.d}</p>
-              <div className="relative h-40">
+              <button type="button" className="relative h-40 w-full cursor-zoom-in" onClick={() => openZoom(item.img, item.t)}>
                 <Image src={item.img} alt={item.t} fill className="object-cover" />
-              </div>
+              </button>
             </div>
           ))}
         </div>
@@ -93,12 +105,12 @@ export default function Home() {
           {[
             { t: "Hotels & Resorts", img: "/assets/Project Portfolio/The Bellevue Hotel Philadelphia PA - Public Area.png" },
             { t: "Cruise Ships", img: "/assets/Project Portfolio/Carnival Cruise Lines Horizon - Suite.png" },
-            { t: "Residential", img: "/assets/Project Portfolio/Andaz Miami Beach FL - Suite.png" },
+            { t: "Multi‑family", img: "/assets/Project Portfolio/Andaz Miami Beach FL - Suite.png" },
           ].map((c) => (
             <div key={c.t} className="bg-[var(--card-bg)] rounded-lg overflow-hidden shadow-sm">
-              <div className="relative h-40">
+              <button type="button" className="relative h-40 w-full cursor-zoom-in" onClick={() => openZoom(c.img, c.t)}>
                 <Image src={c.img} alt={c.t} fill className="object-cover" />
-              </div>
+              </button>
               <div className="p-4">
                 <div className="text-lg text-black font-medium">{c.t}</div>
               </div>
@@ -123,6 +135,16 @@ export default function Home() {
           ))}
         </ol>
       </Section>
+      <Modal open={zoomOpen} onClose={() => setZoomOpen(false)} fullScreen>
+        <div className="relative h-dvh w-screen bg-black">
+          <button onClick={() => setZoomOpen(false)} className="absolute top-4 right-4 z-10 px-4 h-10 rounded-full bg-white/90">Close</button>
+          <div className="h-full w-full flex items-center justify-center p-4">
+            {zoomImg ? (
+              <img src={zoomImg} alt={zoomAlt} className="h-full w-full object-contain" />
+            ) : null}
+          </div>
+        </div>
+      </Modal>
     </PageContainer>
   );
 }

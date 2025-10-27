@@ -13,7 +13,7 @@ export default function Section({ title, intro, children, className }: Props) {
       <div className="max-w-6xl">
         <h2 className="text-3xl font-semibold text-[var(--text-primary)]">{title}</h2>
         {intro ? (
-          <p className="mt-3 text-[var(--text-muted)] max-w-3xl">{intro}</p>
+          <p className="mt-3 text-black max-w-3xl">{intro}</p>
         ) : null}
       </div>
       {children ? <div className="mt-10">{children}</div> : null}

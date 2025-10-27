@@ -35,7 +35,7 @@ export default function ProductsPage() {
       { t: "Pinch Pleat", img: "https://m.media-amazon.com/images/I/81AzAgrBjXL.jpg" },
       { t: "Ripplefold", img: "https://m.media-amazon.com/images/I/71Kt31YU8-L._AC_UF894,1000_QL80_.jpg" },
       { t: "Grommet / Inverted", img: "https://m.media-amazon.com/images/I/91FfebWAuVL.jpg" },
-      { t: "Fullness Sizes (reference)", img: "https://cdn.shopify.com/s/files/1/1407/7422/files/Ripple-fold-fullness-comparison_1024x1024.jpg?v=1557429306" },
+      { t: "Fullness Sizes (reference)", img: "/assets/ripplefold-fullness-chart.jpg" },
     ].forEach(i => items.push(i));
     // Roller Shades (with previews)
     [
@@ -119,13 +119,13 @@ export default function ProductsPage() {
             { t: "Pinch Pleat", img: "https://m.media-amazon.com/images/I/81AzAgrBjXL.jpg" },
             { t: "Ripplefold", img: "https://m.media-amazon.com/images/I/71Kt31YU8-L._AC_UF894,1000_QL80_.jpg" },
             { t: "Grommet / Inverted", img: "https://m.media-amazon.com/images/I/91FfebWAuVL.jpg" },
-            { t: "Fullness Sizes (reference)", img: "https://cdn.shopify.com/s/files/1/1407/7422/files/Ripple-fold-fullness-comparison_1024x1024.jpg?v=1557429306" },
+            { t: "Fullness Sizes (reference)", img: "/assets/ripplefold-fullness-chart.jpg" },
           ].map((item, i) => (
             <div key={i} className={`rounded-xl overflow-hidden border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] shadow-[0_4px_16px_rgba(0,0,0,0.05)] ${item.img ? "cursor-pointer" : ""}`} onClick={() => item.img ? openModal(item.t) : undefined}>
               <div className="p-4 font-medium text-[var(--text-primary)]">{item.t}</div>
               {item.img ? (
                 <div className="relative aspect-[4/3]">
-                  <Image src={item.img} alt={item.t} fill className="object-cover" />
+                  <Image src={item.img} alt={item.t} fill className="object-cover" sizes="(max-width: 1024px) 50vw, 33vw" />
                 </div>
               ) : null}
             </div>
@@ -148,7 +148,7 @@ export default function ProductsPage() {
               <div className="p-4 font-medium text-[var(--text-primary)]">{item.t}</div>
               {item.img ? (
                 <div className="relative aspect-[4/3]">
-                  <Image src={item.img} alt={item.t} fill className="object-cover" />
+                  <Image src={item.img} alt={item.t} fill className="object-cover" sizes="(max-width: 1024px) 50vw, 33vw" />
                 </div>
               ) : null}
             </div>
@@ -168,7 +168,7 @@ export default function ProductsPage() {
               <div className="p-4 font-medium text-[var(--text-primary)]">{item.t}</div>
               {item.img ? (
                 <div className="relative aspect-[4/3]">
-                  <Image src={item.img} alt={item.t} fill className="object-cover" />
+                  <Image src={item.img} alt={item.t} fill className="object-cover" sizes="(max-width: 1024px) 25vw, 25vw" />
                 </div>
               ) : null}
             </div>
@@ -186,7 +186,7 @@ export default function ProductsPage() {
               <div className="p-2 font-medium text-[var(--text-primary)]">{item.t}</div>
               {item.img ? (
                 <div className="relative aspect-[4/3]">
-                  <Image src={item.img} alt={item.t} fill className="object-cover" />
+                  <Image src={item.img} alt={item.t} fill className="object-cover" sizes="(max-width: 1024px) 25vw, 25vw" />
                 </div>
               ) : null}
             </div>
@@ -226,7 +226,7 @@ export default function ProductsPage() {
             <div className="p-4 font-medium text-[var(--text-primary)]">{item.t}</div>
             {item.img ? (
               <div className="relative aspect-[4/3]">
-                <Image src={item.img} alt={item.t} fill className="object-cover" />
+                <Image src={item.img} alt={item.t} fill className="object-cover" sizes="(max-width: 1024px) 50vw, 25vw" />
               </div>
             ) : null}
             <div className="p-4 text-sm text-[var(--text-muted)]">{item.desc}</div>
@@ -241,7 +241,7 @@ export default function ProductsPage() {
               <div className="p-4 font-medium text-[var(--text-primary)]">{item.t}</div>
               {item.img ? (
                 <div className="relative aspect-[4/3]">
-                  <Image src={item.img} alt={item.t} fill className="object-cover" />
+                  <Image src={item.img} alt={item.t} fill className="object-cover" sizes="(max-width: 1024px) 25vw, 25vw" />
                 </div>
               ) : null}
             </div>
@@ -253,7 +253,7 @@ export default function ProductsPage() {
               <div className="p-4 font-medium text-[var(--text-primary)]">{item.t}</div>
               {item.img ? (
                 <div className="relative aspect-[4/3]">
-                  <Image src={item.img} alt={item.t} fill className="object-cover" />
+                  <Image src={item.img} alt={item.t} fill className="object-cover" sizes="(max-width: 1024px) 50vw, 25vw" />
                 </div>
               ) : null}
             </div>
@@ -287,10 +287,10 @@ export default function ProductsPage() {
           <button onClick={() => setOpen(false)} className="absolute top-4 right-4 z-10 px-4 h-10 rounded-full bg-white/90">Close</button>
           <button onClick={() => setCurrentIndex((i)=> (i-1+carouselItems.length)%carouselItems.length)} className="absolute left-4 top-1/2 -translate-y-1/2 z-10 px-4 h-10 rounded-full bg-white/80">Prev</button>
           <button onClick={() => setCurrentIndex((i)=> (i+1)%carouselItems.length)} className="absolute right-4 top-1/2 -translate-y-1/2 z-10 px-4 h-10 rounded-full bg-white/80">Next</button>
-          <div className="h-full w-full flex items-center justify-center">
+          <div className="h-full w-full flex items-center justify-center p-4">
             {carouselItems[currentIndex]?.img ? (
               // Use native img for broad remote URL support in the modal
-              <img src={carouselItems[currentIndex]!.img!} alt={carouselItems[currentIndex]!.t} className="max-h-full max-w-full object-contain mx-auto" />
+              <img src={carouselItems[currentIndex]!.img!} alt={carouselItems[currentIndex]!.t} className="h-full w-full object-contain" />
             ) : (
               <div className="text-white text-lg">{carouselItems[currentIndex]?.t}</div>
             )}
