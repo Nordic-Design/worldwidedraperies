@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+export const runtime = "nodejs"; // force Node.js runtime on Vercel (not Edge)
 import { sendContactEmail } from "@/app/lib/email";
 
 export async function POST(req: NextRequest) {

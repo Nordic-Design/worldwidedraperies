@@ -4,8 +4,9 @@ import nodemailer from 'nodemailer';
 export function createTransporter() {
   const port = parseInt(process.env.SMTP_PORT || '587', 10);
   const secureEnv = (process.env.SMTP_SECURE || '').toLowerCase() === 'true';
+  const requireTLSEnv = (process.env.SMTP_REQUIRE_TLS || '').toLowerCase() === 'true';
   const secure = secureEnv || port === 465; // SSL on 465, STARTTLS on 587
-  const requireTLS = !secure; // only require STARTTLS when not using implicit TLS
+  const requireTLS = requireTLSEnv || !secure; // STARTTLS when not using implicit TLS
 
   const config: any = {
     host: process.env.SMTP_HOST,
