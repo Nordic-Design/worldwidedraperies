@@ -26,7 +26,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
-              className="text-white text-5xl sm:text-6xl font-semibold tracking-tight max-w-3xl"
+              className="hero-heading text-white text-5xl sm:text-6xl font-semibold tracking-tight max-w-3xl"
             >
               Timeless Drapery, Crafted for Hospitality
             </motion.h1>
