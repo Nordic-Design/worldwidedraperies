@@ -10,7 +10,7 @@ const FILTERS = ["All", "Patterns", "Sheers", "Blackouts", "Dyed Blackouts", "Dy
 
 export default function FabricsPage() {
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>("All");
-  const [remote, setRemote] = useState<typeof FABRICS>([] as any);
+  const [remote, setRemote] = useState<any[] | null>(null);
   useEffect(() => { (async () => {
     try {
       const res = await fetch(`/api/fabrics/import`, { cache: "no-store"});
@@ -19,8 +19,8 @@ export default function FabricsPage() {
     } catch { setRemote([] as any); }
   })(); }, []);
 
-  // Prefer remote items when present to avoid static placeholders
-  const all = useMemo(()=> (remote && remote.length ? remote : FABRICS), [remote]);
+  // Avoid placeholder flash: show skeleton until remote arrives
+  const all = useMemo(()=> (remote ?? []), [remote]);
   const filtered = useMemo(() => (
     filter === "All" ? all as any : all.filter(f => f.category === filter)
   ), [filter, all]);
@@ -35,19 +35,33 @@ export default function FabricsPage() {
           ))}
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((f: any) => (
-            <Link key={f.slug} href={`/fabrics/${f.slug}`} className="block rounded-xl overflow-hidden border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-              <div className="aspect-[4/3]">
-                <img src={f.image} alt={f.name} className="w-full h-full object-cover" />
+        {remote === null ? (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="animate-pulse rounded-xl overflow-hidden border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)]">
+                <div className="aspect-[4/3] bg-slate-200" />
+                <div className="p-4 space-y-2">
+                  <div className="h-4 bg-slate-200 rounded w-2/3" />
+                  <div className="h-3 bg-slate-200 rounded w-1/3" />
+                </div>
               </div>
-              <div className="p-4">
-                <div className="font-medium text-[var(--text-primary)]">{f.name}</div>
-                <div className="text-sm text-[var(--text-muted)]">{f.category}</div>
-              </div>
-            </Link>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((f: any) => (
+              <Link key={f.slug} href={`/fabrics/${f.slug}`} className="block rounded-xl overflow-hidden border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+                <div className="aspect-[4/3]">
+                  <img src={f.image} alt={f.name} className="w-full h-full object-cover" />
+                </div>
+                <div className="p-4">
+                  <div className="font-medium text-[var(--text-primary)]">{f.name}</div>
+                  <div className="text-sm text-[var(--text-muted)]">{f.category}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </Section>
     </PageContainer>
   );

@@ -110,8 +110,16 @@ export default function ProjectDetail({ params }: Props) {
           >
             <span className="text-black">›</span>
           </button>
-          <div className="h-full w-full flex items-center justify-center p-4">
-            <img src={data.images[currentIndex]} alt={`Image ${currentIndex+1} of ${data.name}`} className="max-h-full max-w-full object-contain" />
+          <div className="relative h-full w-full">
+            <Image
+              src={data.images[currentIndex]}
+              alt={`Image ${currentIndex+1} of ${data.name}`}
+              fill
+              sizes="100vw"
+              quality={95}
+              className="object-contain"
+              priority
+            />
           </div>
         </div>
       </Modal>
