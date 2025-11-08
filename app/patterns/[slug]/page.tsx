@@ -4,18 +4,16 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import PageContainer from "../../components/PageContainer";
 import Section from "../../components/Section";
-import { V1_PATTERNS, RenderCustomSVG } from "../v1";
+import { RenderCustomSVG } from "../v1";
 
 export default function PatternEditorV1() {
   const router = useRouter();
   const params = useParams() as { slug?: string };
-  const slug = params?.slug ?? V1_PATTERNS[0].slug;
-  const builtIn = useMemo(() => V1_PATTERNS.find(p => p.slug === slug) ?? null, [slug]);
+  const slug = params?.slug as string;
   const [cmsMarkup, setCmsMarkup] = useState<string>("");
-  const [title, setTitle] = useState<string>(builtIn?.name || "Pattern");
+  const [title, setTitle] = useState<string>("Pattern");
 
   useEffect(() => {
-    if (builtIn) { setCmsMarkup(""); setTitle(builtIn.name); return; }
     (async () => {
       try {
         const res = await fetch("/api/cms/patterns", { cache: "no-store" });
@@ -24,7 +22,7 @@ export default function PatternEditorV1() {
         if (rec) { setCmsMarkup(rec.svgMarkup || ""); setTitle(rec.name || "Pattern"); }
       } catch {}
     })();
-  }, [slug, builtIn]);
+  }, [slug]);
 
   const [bg, setBg] = useState("#F9F9F6");
   const [fg, setFg] = useState("#C5B8A5");
@@ -90,9 +88,7 @@ export default function PatternEditorV1() {
           </div>
 
           <div className="bg-[var(--card-bg)] rounded-xl border border-[color:var(--brand-taupe)]/30 p-4 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-            {builtIn ? (
-              <builtIn.Component bg={bg} fg={fg} acc={acc} />
-            ) : cmsMarkup ? (
+            {cmsMarkup ? (
               <RenderCustomSVG markup={cmsMarkup} bg={bg} fg={fg} acc={acc} />
             ) : null}
             <div className="mt-4 text-sm text-[var(--text-muted)]">Pick a swatch for Background, Foreground, and Accent. The picker closes after selection.</div>

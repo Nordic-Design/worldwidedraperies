@@ -1,7 +1,7 @@
 import Link from "next/link";
 import PageContainer from "../components/PageContainer";
 import Section from "../components/Section";
-import { V1_PATTERNS, RenderCustomSVG } from "./v1";
+import { RenderCustomSVG } from "./v1";
 import { Suspense } from "react";
 import { headers } from "next/headers";
 
@@ -36,17 +36,7 @@ export default function PatternsPage() {
         <h1 className="text-4xl font-semibold text-[var(--text-primary)]">Patterns</h1>
         <p className="mt-3 text-[var(--text-muted)] max-w-2xl">Choose a pattern to start customizing colors.</p>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {V1_PATTERNS.map((p) => (
-            <Link key={p.slug} href={`/patterns/${p.slug}`} className="block group rounded-xl overflow-hidden border border-[color:var(--brand-taupe)]/30 bg-[var(--card-bg)] shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-              <div className="aspect-video">{<p.Component bg="#F9F9F6" fg="#C5B8A5" acc="#D4AF37" />}</div>
-              <div className="p-4 flex items-center justify-between">
-                <div className="font-medium text-[var(--text-primary)]">{p.name}</div>
-                <span className="text-xs px-2 py-1 rounded-full bg-[var(--accent-gold)] text-white">Customize</span>
-              </div>
-            </Link>
-          ))}
-        </div>
+        {/* Only CMS patterns are shown below */}
 
         <Suspense>
           <CmsPatterns />
