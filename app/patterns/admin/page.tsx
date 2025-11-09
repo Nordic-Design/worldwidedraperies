@@ -8,12 +8,13 @@ import { RenderCustomSVG } from "../v1";
 type CmsPattern = { slug: string; name: string; svgMarkup: string };
 
 export default function AdminPatternsPage() {
+  const DEFAULT_SVG = "<svg viewBox='0 0 400 240'><rect x='0' y='0' width='400' height='240' fill='{bg}'/><circle cx='200' cy='120' r='80' fill='{fg}' /><rect x='0' y='220' width='400' height='20' fill='{acc}'/></svg>";
   const [authed, setAuthed] = useState(false);
   const [u, setU] = useState("");
   const [p, setP] = useState("");
   const [slug, setSlug] = useState("");
   const [name, setName] = useState("");
-  const [svgMarkup, setSvgMarkup] = useState("<svg viewBox='0 0 400 240'><rect x='0' y='0' width='400' height='240' fill='{bg}'/><circle cx='200' cy='120' r='80' fill='{fg}' /><rect x='0' y='220' width='400' height='20' fill='{acc}'/></svg>");
+  const [svgMarkup, setSvgMarkup] = useState(DEFAULT_SVG);
   const [list, setList] = useState<CmsPattern[]>([]);
   const [previewColors] = useState({ bg: "#F9F9F6", fg: "#C5B8A5", acc: "#D4AF37" });
 
@@ -47,7 +48,9 @@ export default function AdminPatternsPage() {
     e.preventDefault();
     const res = await fetch("/api/cms/patterns", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ slug, name, svgMarkup }) });
     if (res.ok) {
+      // Reset form and preview to defaults after a successful save
       setSlug(""); setName("");
+      setSvgMarkup(DEFAULT_SVG);
       await load();
     } else {
       const j = await res.json();
