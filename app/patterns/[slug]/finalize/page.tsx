@@ -70,18 +70,7 @@ export default function FinalizePattern() {
     img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgMarkup);
   }, [colors, cmsMarkup, slug]);
 
-  // If this slug is a CMS pattern, fetch its markup so we can render the same design preview
-  useEffect(() => {
-    if (V1_PATTERNS.find(p => p.slug === slug)) return; // built-in v1 pattern
-    (async () => {
-      try {
-        const res = await fetch("/api/cms/patterns", { cache: "no-store" });
-        const data = await res.json();
-        const rec = (data?.patterns || []).find((p: any) => p.slug === slug);
-        if (rec?.svgMarkup) setCmsMarkup(rec.svgMarkup);
-      } catch {}
-    })();
-  }, [slug]);
+  // (CMS-only) Markup is fetched above; no built-in V1 patterns
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
