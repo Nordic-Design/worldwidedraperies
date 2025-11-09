@@ -4,7 +4,7 @@ export type V1Pattern = {
   slug: string;
   name: string;
   previewBg?: string;
-  Component: (props: { bg: string; fg: string; acc: string }) => JSX.Element;
+  Component: (props: { bg: string; fg: string; acc: string }) => React.ReactElement;
 };
 
 function Stripes({ bg, fg, acc }: { bg: string; fg: string; acc: string }) {
@@ -45,7 +45,7 @@ function Chevron({ bg, fg, acc }: { bg: string; fg: string; acc: string }) {
 }
 
 function Dots({ bg, fg, acc }: { bg: string; fg: string; acc: string }) {
-  const dots: JSX.Element[] = [];
+  const dots: React.ReactElement[] = [];
   for (let y = 10; y < 240; y += 24) {
     for (let x = 10; x < 400; x += 24) {
       const useAcc = ((x + y) / 24) % 3 === 0;
@@ -95,9 +95,33 @@ export const V1_PATTERNS: V1Pattern[] = [
   { slug: "herringbone", name: "Herringbone", Component: Herringbone },
 ];
 
-export function RenderCustomSVG({ markup, bg, fg, acc }: { markup: string; bg: string; fg: string; acc: string }) {
+export function RenderCustomSVG({ markup, bg, fg, acc, mode = "inline" }: { markup: string; bg: string; fg: string; acc: string; mode?: "inline" | "preview" }) {
   const colored = markup.replaceAll("{bg}", bg).replaceAll("{fg}", fg).replaceAll("{acc}", acc);
-  return <div dangerouslySetInnerHTML={{ __html: colored }} />;
+
+  // Avoid ID collisions across multiple inline SVGs on the same page (especially on Admin screen)
+  const ns = `ns-${Math.random().toString(36).slice(2, 8)}`;
+  function namespaceSvgIds(svg: string): string {
+    // Find all id="..."; then rewrite references url(#...), href="#...", xlink:href="#..."
+    const ids = new Set<string>();
+    svg.replace(/\\bid=\"([A-Za-z_][\\w:-]*)\"/g, (_m, id) => { ids.add(id); return _m; });
+    let next = svg;
+    ids.forEach((id) => {
+      const scoped = `${ns}-${id}`;
+      const idRe = new RegExp(`\\bid=\"${id}\"`, 'g');
+      const urlRe = new RegExp(`url\\(#${id}\\)`, 'g');
+      const hrefRe = new RegExp(`([\\s\"\\'])#${id}([\\s\"\\'])`, 'g'); // handles href=\"#id\"
+      next = next.replace(idRe, `id=\"${scoped}\"`)
+                 .replace(urlRe, `url(#${scoped})`)
+                 .replace(hrefRe, `$1#${scoped}$2`);
+    });
+    return next;
+  }
+  const safe = namespaceSvgIds(colored);
+  if (mode === "preview") {
+    const dataUrl = "data:image/svg+xml;utf8," + encodeURIComponent(safe);
+    return <div className="svg-preview" style={{ backgroundImage: `url('${dataUrl}')`, backgroundSize: "cover", backgroundPosition: "center" }} />;
+  }
+  return <div className="svg-fit" dangerouslySetInnerHTML={{ __html: safe }} />;
 }
 
 
