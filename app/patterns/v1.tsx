@@ -101,18 +101,24 @@ export function RenderCustomSVG({ markup, bg, fg, acc, mode = "inline" }: { mark
   // Avoid ID collisions across multiple inline SVGs on the same page (especially on Admin screen)
   const ns = `ns-${Math.random().toString(36).slice(2, 8)}`;
   function namespaceSvgIds(svg: string): string {
-    // Find all id="..."; then rewrite references url(#...), href="#...", xlink:href="#..."
+    // Collect ids (single or double quoted)
     const ids = new Set<string>();
-    svg.replace(/\\bid=\"([A-Za-z_][\\w:-]*)\"/g, (_m, id) => { ids.add(id); return _m; });
+    svg.replace(/\bid=(["'])([A-Za-z_][\w:-]*)\1/g, (_m, _q, id) => { ids.add(id); return _m; });
     let next = svg;
     ids.forEach((id) => {
       const scoped = `${ns}-${id}`;
-      const idRe = new RegExp(`\\bid=\"${id}\"`, 'g');
-      const urlRe = new RegExp(`url\\(#${id}\\)`, 'g');
-      const hrefRe = new RegExp(`([\\s\"\\'])#${id}([\\s\"\\'])`, 'g'); // handles href=\"#id\"
-      next = next.replace(idRe, `id=\"${scoped}\"`)
-                 .replace(urlRe, `url(#${scoped})`)
-                 .replace(hrefRe, `$1#${scoped}$2`);
+      const idReDq = new RegExp(`\\bid="${id}"`, 'g');
+      const idReSq = new RegExp(`\\bid='${id}'`, 'g');
+      const urlBare = new RegExp(`url\\(#${id}\\)`, 'g');
+      const urlDq = new RegExp(`url\\("#${id}"\\)`, 'g');
+      const urlSq = new RegExp(`url\\('\#${id}'\\)`.replace('\\#', '#'), 'g');
+      const hrefAttr = new RegExp(`\\b(?:href|xlink:href)=(["'])#${id}\\1`, 'g');
+      next = next.replace(idReDq, `id="${scoped}"`)
+                 .replace(idReSq, `id='${scoped}'`)
+                 .replace(urlBare, `url(#${scoped})`)
+                 .replace(urlDq, `url("#${scoped}")`)
+                 .replace(urlSq, `url('#${scoped}')`)
+                 .replace(hrefAttr, (_m, q) => `href=${q}#${scoped}${q}`);
     });
     return next;
   }
