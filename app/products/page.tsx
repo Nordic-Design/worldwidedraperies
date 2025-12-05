@@ -81,7 +81,7 @@ export default function ProductsPage() {
       { t: "H‑Tracks (Blk/Brnz/Gold)", img: "https://waclighting.com/storage/waclighting-images/top_prod_image/HT4-BK_IMRO_2.jpg" },
       { t: "Motorized", img: "https://m.media-amazon.com/images/I/71c3JIym3kL.jpg" },
       { t: "Cord Operated", img: "https://www.forestgroup.com/user_files/images/block_thumbnail/CKS_klein.png" },
-      { t: "Wand", img: "https://m.media-amazon.com/images/I/81XKoiq2pcL._UF894,1000_QL80_.jpg" },
+      { t: "Baton", img: "https://m.media-amazon.com/images/I/81XKoiq2pcL._UF894,1000_QL80_.jpg" },
       { t: "Manual", img: "https://m.media-amazon.com/images/I/51PvXdALtDL.jpg" },
     ].forEach(i => items.push(i));
 

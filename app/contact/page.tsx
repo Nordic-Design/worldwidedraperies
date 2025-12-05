@@ -53,7 +53,7 @@ export default function ContactPage() {
         <div>
           <h1 className="text-4xl font-semibold text-[var(--text-primary)]">Contact Us</h1>
           <p className="mt-3 text-[var(--text-muted)] max-w-2xl">
-            Ready to see your design come to life? Share your details and we'll guide you through receiving a personalized sample of your custom pattern.
+            Contact us to transform your space with expertly crafted window treatments and custom bedding.
           </p>
 
           {!submitted ? (

@@ -69,7 +69,7 @@ export default function ProjectDetail({ params }: Props) {
         <div>
           <h1 className="text-4xl font-semibold text-[var(--text-primary)]">{data.name}</h1>
           <p className="text-[var(--text-muted)] mt-2">{data.location}</p>
-          <p className="text-[var(--text-muted)] mt-4">Scope: custom draperies, roller shades, and bedding. Installation completed on schedule.</p>
+          <p className="text-[var(--text-muted)] mt-4">Scope: custom draperies, roller shades, and bedding.</p>
         </div>
       </section>
 
