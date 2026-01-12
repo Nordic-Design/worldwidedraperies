@@ -90,7 +90,9 @@ export default function ContactPage() {
             <p>HIALEAH, FLORIDA 33010, US</p>
             <p>O: 305.887.9611</p>
             <p>F: 305.883.1350</p>
-            <p>Email: info@wwdrape.com</p>
+            <p>Sales: sales@wwdrape.com</p>
+            <p>Quoting: quotes@wwdrape.com</p>
+            <p>Join our team: hr@wwdrape.com</p>
           </div>
           <div className="mt-6 text-sm text-white">
             Copyright 2025 Worldwide Draperies
